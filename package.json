@@ -1,0 +1,49 @@
+{
+  "name": "buttcloud-provider",
+  "version": "0.0.0",
+  "description": "a hosted Scuttlebutt pub-as-a-service provider",
+  "main": "web.js",
+  "scripts": {
+    "web": "node ./src/web/bin | pino-colada",
+    "worker": "node ./src/worker/bin",
+    "start": "npm-run-all -p web worker",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buttcloud/buttcloud-provider.git"
+  },
+  "author": "Mikey <michael.williams@enspiral.com> (http://dinosaur.is)",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/buttcloud/buttcloud-provider/issues"
+  },
+  "homepage": "https://github.com/buttcloud/buttcloud-provider#readme",
+  "dependencies": {
+    "@feathersjs/authentication": "^2.1.4",
+    "@feathersjs/authentication-jwt": "^2.0.0",
+    "@feathersjs/configuration": "^1.0.2",
+    "@feathersjs/express": "^1.2.1",
+    "@feathersjs/feathers": "^3.1.4",
+    "@feathersjs/socketio": "^3.2.1",
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "express-pino-logger": "^3.0.1",
+    "feathers-knex": "^3.0.6",
+    "helmet": "^3.12.0",
+    "ioredis": "^3.2.2",
+    "lodash": "^4.17.5",
+    "next": "^5.1.0",
+    "node-resque": "^5.2.0",
+    "nodemailer": "^4.6.4",
+    "npm-run-all": "^4.1.2",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "serve-favicon": "^2.5.0",
+    "server-summary": "^6.1.0",
+    "val-loader": "^1.1.0"
+  },
+  "devDependencies": {
+    "pino-colada": "^1.4.4"
+  }
+}

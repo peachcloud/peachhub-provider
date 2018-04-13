@@ -1,0 +1,14 @@
+{
+  "authentication": {
+    "secret": "secret",
+    "strategies": []
+  },
+  "web": {
+    "port": "8001",
+    "url": "http://localhost:8001"
+  },
+  "assets": {
+    "path": "assets",
+    "url": "/"
+  }
+}
