@@ -14,7 +14,7 @@ function AssetServer () {
 
     server.use('/', express.static(get(config, 'asset.directory')))
 
-    const compilerHandler = Compiler(join(__dirname, '../browser'))
+    const compilerHandler = Compiler(join(__dirname, '../app'))
     const compiler = compilerHandler.compiler
     server.use(compilerHandler)
     compiler.on('error', (nodeName, edgeName, err) => {
