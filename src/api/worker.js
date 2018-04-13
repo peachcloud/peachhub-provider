@@ -2,9 +2,9 @@ const Redis = require('ioredis')
 const Resque = require('node-resque')
 const { get } = require('lodash')
 
-module.exports = WorkerService
+module.exports = Worker
 
-async function WorkerService (server) {
+async function Worker (server) {
   // connect to worker queue
   const { config } = server
   const redisUrl = get(config, 'redis.url')

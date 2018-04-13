@@ -1,14 +1,21 @@
 {
   "authentication": {
     "secret": "secret",
-    "strategies": []
+    "strategies": [
+      "jwt"
+    ],
+    "jwt": {
+      "audience": "http://butt.nz",
+      "expiresIn": "1d"
+    }
   },
-  "web": {
+  "api": {
     "port": "8001",
     "url": "http://localhost:8001"
   },
-  "assets": {
-    "path": "assets",
-    "url": "/"
+  "asset": {
+    "directory": "assets",
+    "port": "8002",
+    "url": "http://localhost:8002"
   }
 }

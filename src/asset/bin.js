@@ -1,11 +1,9 @@
-const WebServer = require('./server')
+const AssetServer = require('./')
 
-const { start, log } = WebServer()
+const { start, log } = AssetServer()
 
 process.on('unhandledRejection', (reason, p) =>
   log.fatal(reason)
 )
 
 start()
-
-
