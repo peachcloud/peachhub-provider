@@ -22,36 +22,30 @@ const { render } = require('react-dom')
 const h = require('react-hyperscript')
 
 const defaultTheme = require('./themes/default')
-
-const App = require('./pages/landing')
+const App = require('./components/app')
 
 const styleRenderer = createStyleRenderer()
 addStyleSheet('https://fonts.googleapis.com/css?family=Roboto:300,400,500')
 addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons')
 
-function Root () {
-  return (
-    h(StyleProvider, {
-      renderer: styleRenderer
-    }, [
-      h(StyleThemeProvider, {
-        theme: defaultTheme
-      }, [
-        h(MuiThemeProvider, {
-          theme: themeToMuiTheme(defaultTheme)
-        }, [
-          h(App)
-        ])
-      ])
-    ])
-  )
-}
+styleRenderer.renderStatic(`
+  html, body, .root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+`)
 
 const domRoot = document.createElement('div')
+domRoot.className = 'root'
 document.body.appendChild(domRoot)
 
 render(
-  h(Root),
+  h(App, {
+    styleRenderer,
+    theme: defaultTheme
+  }),
   domRoot
 )
 
@@ -60,14 +54,4 @@ function addStyleSheet (href) {
   el.rel = 'stylesheet'
   el.href = href
   document.body.appendChild(el)
-}
-
-function themeToMuiTheme (theme) {
-  const {
-    colors
-  } = theme
-
-  return createMuiTheme({
-    palette: colors
-  })
 }
