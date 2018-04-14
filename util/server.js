@@ -20,8 +20,8 @@ function Server (name, cb) {
   server.configure(require('../util/asyncConfigure'))
 
   const logger = config.logger
-    ? Logger({ logger: config.logger })
-    : Logger()
+    ? Logger({ logger: config.logger.child({ name }) })
+    : Logger({ name })
   server.use(logger)
   const log = server.log = logger.logger
 

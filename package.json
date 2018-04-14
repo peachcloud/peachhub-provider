@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "description": "a hosted Scuttlebutt pub-as-a-service provider",
   "scripts": {
-    "prod:api": "node ./src/api/bin",
-    "dev:api": "node-dev ./src/api/bin | pino-colada",
-    "prod:asset": "node ./src/asset/bin",
-    "dev:asset": "node-dev ./src/asset/bin | pino-colada",
-    "prod:worker": "node ./src/worker/bin",
-    "dev:worker": "node ./src/worker/bin | pino-colada",
+    "prod:api": "node ./api/bin",
+    "dev:api": "node-dev ./api/bin | pino-colada",
+    "prod:asset": "node ./asset/bin",
+    "dev:asset": "node-dev ./asset/bin | pino-colada",
+    "prod:worker": "node ./worker/bin",
+    "dev:worker": "node ./worker/bin | pino-colada",
     "start": "npm-run-all -p prod:*",
     "dev": "npm-run-all -p dev:*",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +16,7 @@
   "browserify": {
     "transform": [
       [
-        "./src/util/configify",
+        "./util/configify",
         {
           "keys": [
             "api",
@@ -59,6 +59,7 @@
     "node-resque": "^5.2.0",
     "nodemailer": "^4.6.4",
     "npm-run-all": "^4.1.2",
+    "pino": "^4.16.1",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-fela": "^7.2.0",
