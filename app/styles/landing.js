@@ -4,6 +4,7 @@ module.exports = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
 
     ':after': {
       content: '""',
@@ -19,7 +20,14 @@ module.exports = {
       backgroundSize: 'cover'
     }
   }),
-  header: () => ({}),
+  header: () => ({
+    padding: '12px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 0.5
+  }),
   title: ({ theme }) => ({
     fontSize: theme.fontSizes[5]
   })

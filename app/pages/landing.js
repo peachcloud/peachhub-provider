@@ -26,8 +26,11 @@ function Landing (props) {
           color: 'default',
           align: 'center'
         }, [
-          'ButtCloud!'
-        ])
+          'ButtCloud!',
+        ]),
+        h('img', {
+          src: 'https://scontent.fakl1-1.fna.fbcdn.net/v/t39.2365-6/17639236_1785253958471956_282550797298827264_n.png?_nc_cat=0&oh=75f2de065fd5fc4261d8ed45eaf936de&oe=5B2833EA'
+        })
       ])
     ])
   )
