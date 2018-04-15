@@ -1,6 +1,6 @@
 const Resque = require('node-resque')
 const Redis = require('ioredis')
-const { get } = require('lodash')
+const { path } = require('ramda')
 const Logger = require('pino')
 
 const config = require('../config')
@@ -8,8 +8,10 @@ const Jobs = require('../jobs')
 
 module.exports = startWorker
 
+const getRedisUrl = path(['redis', 'url'])
+
 async function startWorker () {
-  const redisUrl = get(config, 'redis.url')
+  const redisUrl = getRedisUrl(config)
   const logger = config.logger
     ? config.logger.child({ name: 'worker' })
     : Logger({ name: 'worker' })

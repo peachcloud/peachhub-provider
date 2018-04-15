@@ -7,7 +7,7 @@ const helmet = require('helmet')
 const Logger = require('express-pino-logger')
 const serverSummary = require('server-summary')
 const { join } = require('path')
-const { get, assign } = require('lodash')
+const { merge } = require('ramda')
 
 const asyncConfigure = require('./asyncConfigure')
 
@@ -51,10 +51,7 @@ function Server (name, cb) {
     var httpServer = server.listen(port, () => {
       if (httpServer == null) return
       serverSummary(httpServer, info => {
-        const summary = assign(info, {
-          message: `${name} server listening`
-        })
-        log.info(summary)
+        log.info(info, `${name} server listening`)
       })()
     })
   }
