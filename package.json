@@ -14,7 +14,7 @@
     "prod:api": "node ./api/bin",
     "prod:asset": "node ./asset/bin",
     "prod:worker": "node ./worker/bin",
-    "sql": "knex --knexfile sql",
+    "sql": "knex --knexfile sql/config.js --cwd .",
     "start": "npm run prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
