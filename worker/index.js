@@ -23,7 +23,7 @@ async function startWorker () {
 
   process.on('SIGTERM', shutdown)
   process.on('SIGINT', shutdown)
-  
+
   async function shutdown () {
     await scheduler.end()
     await worker.end()
@@ -42,7 +42,7 @@ async function createScheduler ({ connection, logger }) {
     logger.debug(`scheduler working timestamp ${timestamp}`)
   })
   scheduler.on('transferredJob', (timestamp, job) => {
-   logger.debug(`scheduler enquing job ${timestamp} >> ${JSON.stringify(job)}`)
+    logger.debug(`scheduler enquing job ${timestamp} >> ${JSON.stringify(job)}`)
   })
 
   await scheduler.connect()

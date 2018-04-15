@@ -9,7 +9,7 @@ function asyncConfigure (server) {
     server.ready = server.ready.then(() => {
       return fn.call(server, server)
     })
-    
+
     return server.ready
   }
 }

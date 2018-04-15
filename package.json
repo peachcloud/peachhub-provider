@@ -3,18 +3,20 @@
   "version": "0.0.0",
   "description": "a hosted Scuttlebutt pub-as-a-service provider",
   "scripts": {
-    "prod:api": "node ./api/bin",
-    "dev:api": "node-dev ./api/bin | pino-colada",
-    "prod:asset": "node ./asset/bin",
-    "dev:asset": "node-dev ./asset/bin | pino-colada",
-    "prod:worker": "node ./worker/bin",
-    "dev:worker": "node ./worker/bin | pino-colada",
-    "start": "npm-run-all -p prod:*",
-    "dev": "npm-run-all -p dev:*",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "burnthemall": "rm -rf package-lock.json node_modules; npm i",
+    "burnthesql": "dropdb buttcloud_provider_development -h localhost -U postgres; createdb buttcloud_provider_development -h localhost -U postgres; npm run sql migrate:latest; npm run sql seed:run",
+    "dev": "npm-run-all -p dev:*",
+    "dev:api": "node-dev ./api/bin | pino-colada",
+    "dev:asset": "node-dev ./asset/bin | pino-colada",
+    "dev:worker": "node ./worker/bin | pino-colada",
+    "lint": "standard",
+    "prod": "npm-run-all -p prod:*",
+    "prod:api": "node ./api/bin",
+    "prod:asset": "node ./asset/bin",
+    "prod:worker": "node ./worker/bin",
     "sql": "knex --knexfile sql",
-    "burnthesql": "dropdb buttcloud_provider_development -h localhost -U postgres; createdb buttcloud_provider_development -h localhost -U postgres; npm run sql migrate:latest; npm run sql seed:run"
+    "start": "npm run prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "browserify": {
     "transform": [
@@ -81,6 +83,7 @@
   "devDependencies": {
     "budo": "^11.2.0",
     "node-dev": "^3.1.3",
-    "pino-colada": "^1.4.4"
+    "pino-colada": "^1.4.4",
+    "standard": "^11.0.1"
   }
 }

@@ -35,4 +35,3 @@ function Navigation (props) {
     ])
   )
 }
-

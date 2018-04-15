@@ -15,7 +15,7 @@ module.exports = {
       height: '100%',
       opacity: 0.5,
       zIndex: -1,
-      backgroundColor: theme.colors.canvas, 
+      backgroundColor: theme.colors.canvas,
       backgroundImage: 'url("https://upload.wikimedia.org/wikipedia/commons/7/73/Mammatus_clouds_regina_sk_june_2012.JPG")',
       backgroundSize: 'cover'
     }

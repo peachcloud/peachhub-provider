@@ -60,5 +60,3 @@ function Server (name, cb) {
     server.close(cb)
   }
 }
-
-

@@ -157,7 +157,7 @@ npm test -- './todos/**/*.test.js'
 
 Default glob is `./**/*.test.js` ignoring `node_modules`
 
-### TODO `npm run lint`
+### `npm run lint`
 
 checks for [standard style](http://standardjs.com)
 
