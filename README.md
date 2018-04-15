@@ -2,11 +2,35 @@
 
 a hosted Scuttlebutt pub-as-a-service provider
 
+## table of contents
+
+- [start](#start)
+- [design](#design)
+- [stack](#stack)
+- [folder structure](#folder-structure)
+- [scripts](#scripts)
+  - [npm start](#npm-start)
+  - [npm run dev](#npm-run-dev)
+  - TODO [npm test](#npm-test)
+  - [npm run lint](#npm-run-lint)
+  - [npm run sql](#npm-run-sql)
+- [notes](#notes)
+
+## start
+
+before you start, please
+
+- [install `node@8` and `npm@5`](https://dogstack.js.org/guides/how-to-install-js.html)
+- [install and set up Postgres for your system](https://dogstack.js.org/guides/how-to-setup-sql-db.html)
+- create a database in Postgres named `buttcloud_provider_development` (see [Postgres DEV setup](#postgres-DEV-setup))
+
 ```shell
 git clone git@github.com:buttcloud/buttcloud-provider
 cd buttcloud-provider
 npm install
-npm start
+npm run sql migrate:latest
+npm run sql seed:run
+npm run dev
 ```
 
 ## design
@@ -97,3 +121,91 @@ npm start
   - [nodemailer](https://github.com/nodemailer/nodemailer)
   - third-party: [sendgrid](https://sendgrid.com/)
   - dev tool: [maildev](https://github.com/djfarrelly/maildev)
+
+## folder structure
+
+we're following the [dogstack folder structure convention](https://dogstack.js.org/conventions/file-structure.html), adapted for our stack.
+
+## available scripts
+
+### `npm start`
+
+starts production server
+
+```shell
+npm start
+```
+
+### `npm run dev`
+
+starts development server
+
+```shell
+npm run dev
+```
+
+
+### TODO `npm test`
+
+runs [`ava`](https://github.com/avajs/ava) tests
+
+Can optionally take a [glob](https://www.npmjs.com/package/glob)
+
+```shell
+npm test -- './todos/**/*.test.js'
+```
+
+Default glob is `./**/*.test.js` ignoring `node_modules`
+
+### TODO `npm run lint`
+
+checks for [standard style](http://standardjs.com)
+
+can optionally take a [glob](https://www.npmjs.com/package/glob)
+
+```shell
+npm run lint -- './todos/**/*.js'
+```
+
+default glob is `./**/*.js` ignoring `node_modules`
+
+### `npm run sql`
+
+runs [`knex`](http://knexjs.org/#Migrations-CLI) command, with any arguments.
+
+```shell
+npm run sql migrate:latest
+```
+
+```shell
+npm run sql seed:run
+```
+
+## notes
+
+### Postgres DEV setup
+
+use a [`~/.pgpass`](https://www.postgresql.org/docs/current/static/libpq-pgpass.html) file to automate your passwords!
+
+```shell
+echo "localhost:5432:*:postgres:password" > ~/.pgpass
+chmod 600 ~/.pgpass
+```
+
+create your database with:
+
+```shell
+createdb buttcloud_provider_development -h localhost -U postgres
+```
+
+drop your database with:
+
+```shell
+dropdb buttcloud_provider_development -h localhost -U postgres
+```
+
+connect to your database with:
+
+```shell
+psql -h localhost -U postgres -d buttcloud_provider_development
+```
