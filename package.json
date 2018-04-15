@@ -65,6 +65,8 @@
     "react-fela": "^7.2.0",
     "react-hyperscript": "^3.2.0",
     "recompose": "^0.26.0",
+    "redux-bundler": "^21.0.3",
+    "redux-bundler-react": "^1.0.0",
     "serve-favicon": "^2.5.0",
     "server-summary": "^6.1.0",
     "socket.io-client": "^2.1.0",

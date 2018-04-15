@@ -9,7 +9,7 @@ const App = require('./components/app')
 
 module.exports = view
 
-function view ({ config, client }) {
+function view ({ config, store }) {
   const styleRenderer = createStyleRenderer()
   addStyleSheet('https://fonts.googleapis.com/css?family=Roboto:300,400,500')
   addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons')
@@ -32,7 +32,7 @@ function view ({ config, client }) {
       styleRenderer,
       theme: defaultTheme,
       config,
-      client
+      store
     }),
     domRoot
   )

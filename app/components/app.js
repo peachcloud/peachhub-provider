@@ -8,12 +8,14 @@ module.exports = App
 
 function App (props) {
   const {
+    store,
     styleRenderer,
     theme
   } = props
 
   return (
     h(Provider, {
+      store,
       styleRenderer,
       theme
     }, [

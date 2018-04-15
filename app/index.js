@@ -1,11 +1,13 @@
+localStorage.setItem('debug', true)
+
 const config = require('../config')
 window.config = config
 
-const client = require('./client')
-window.client = client
+const createStore = require('./store')
+const store = createStore()
 
 const view = require('./view')
 view({
   config,
-  client
+  store
 })

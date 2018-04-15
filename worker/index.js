@@ -27,27 +27,26 @@ async function startWorker () {
   async function shutdown () {
     await scheduler.end()
     await worker.end()
-    logger.info('shutting down worker')
     process.exit()
   }
 }
 
 async function createScheduler ({ connection, logger }) {
   const scheduler = new Resque.Scheduler({ connection })
-  await scheduler.connect()
-  scheduler.start()
-
   scheduler.on('start', () => { logger.info('scheduler started') })
   scheduler.on('end', () => { logger.info('scheduler ended') })
-  scheduler.on('poll', () => { logger.info('scheduler polling') })
-  scheduler.on('master', (state) => { logger.info('scheduler became master') })
-  scheduler.on('error', (error) => { logger.info(`scheduler error >> ${error}`) })
+  scheduler.on('poll', () => { logger.debug('scheduler polling') })
+  scheduler.on('master', (state) => { logger.debug('scheduler became master') })
+  scheduler.on('error', (error) => { logger.debug(`scheduler error >> ${error}`) })
   scheduler.on('workingTimestamp', (timestamp) => {
-    logger.info(`scheduler working timestamp ${timestamp}`)
+    logger.debug(`scheduler working timestamp ${timestamp}`)
   })
   scheduler.on('transferredJob', (timestamp, job) => {
-   logger.info(`scheduler enquing job ${timestamp} >> ${JSON.stringify(job)}`)
+   logger.debug(`scheduler enquing job ${timestamp} >> ${JSON.stringify(job)}`)
   })
+
+  await scheduler.connect()
+  scheduler.start()
 
   return scheduler
 }
@@ -58,20 +57,21 @@ async function createWorker ({ connection, logger }) {
   ]
   const jobs = Jobs(config)
   const worker = new Resque.Worker({ connection, queues }, jobs)
-  await worker.connect()
-  await worker.workerCleanup() // optional: cleanup any previous improperly shutdown workers on this host
-  worker.start()
 
   worker.on('start', () => { logger.info('worker started') })
   worker.on('end', () => { logger.info('worker ended') })
-  worker.on('cleaning_worker', (worker, pid) => { logger.info(`cleaning old worker ${worker}`) })
-  worker.on('poll', (queue) => { logger.info(`worker polling ${queue}`) })
-  worker.on('job', (queue, job) => { logger.info(`working job ${queue} ${JSON.stringify(job)}`) })
-  worker.on('reEnqueue', (queue, job, plugin) => { logger.info(`reEnqueue job (${plugin}) ${queue} ${JSON.stringify(job)}`) })
-  worker.on('success', (queue, job, result) => { logger.info(`job success ${queue} ${JSON.stringify(job)} >> ${result}`) })
-  worker.on('failure', (queue, job, failure) => { logger.info(`job failure ${queue} ${JSON.stringify(job)} >> ${failure}`) })
-  worker.on('error', (error, queue, job) => { logger.info(`error ${queue} ${JSON.stringify(job)}  >> ${error}`) })
-  worker.on('pause', () => { logger.info('worker paused') })
+  worker.on('cleaning_worker', (worker, pid) => { logger.debug(`cleaning old worker ${worker}`) })
+  worker.on('poll', (queue) => { logger.debug(`worker polling ${queue}`) })
+  worker.on('job', (queue, job) => { logger.debug(`working job ${queue} ${JSON.stringify(job)}`) })
+  worker.on('reEnqueue', (queue, job, plugin) => { logger.debug(`reEnqueue job (${plugin}) ${queue} ${JSON.stringify(job)}`) })
+  worker.on('success', (queue, job, result) => { logger.debug(`job success ${queue} ${JSON.stringify(job)} >> ${result}`) })
+  worker.on('failure', (queue, job, failure) => { logger.debug(`job failure ${queue} ${JSON.stringify(job)} >> ${failure}`) })
+  worker.on('error', (error, queue, job) => { logger.debug(`error ${queue} ${JSON.stringify(job)}  >> ${error}`) })
+  worker.on('pause', () => { logger.debug('worker paused') })
+
+  await worker.connect()
+  await worker.workerCleanup() // optional: cleanup any previous improperly shutdown workers on this host
+  worker.start()
 
   return worker
 }
