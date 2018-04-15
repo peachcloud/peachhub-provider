@@ -1,0 +1,10 @@
+{
+  "sql": {
+    "connection": {
+      "host": "localhost",
+      "user": "postgres",
+      "password": "password",
+      "database": "buttcloud_provider_development"
+    }
+  }
+}

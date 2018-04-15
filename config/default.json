@@ -17,5 +17,14 @@
     "directory": "asset/data",
     "port": "8002",
     "url": "http://localhost:8002"
+  },
+  "sql": {
+    "migrations": {
+      "directory": "sql/migrations"
+    },
+    "seeds": {
+      "directory": "sql/seeds"
+    },
+    "client": "postgresql"
   }
 }

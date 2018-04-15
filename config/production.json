@@ -1,0 +1,5 @@
+{
+  "sql": {
+    "connection": "DATABASE_URL"
+  }
+}
