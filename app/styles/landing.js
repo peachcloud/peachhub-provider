@@ -13,7 +13,7 @@ module.exports = {
       left: 0,
       width: '100%',
       height: '100%',
-      opacity: 0.3,
+      opacity: 0.5,
       zIndex: -1,
       backgroundColor: theme.colors.canvas,
       backgroundImage: 'url("/background.svg")',
@@ -23,13 +23,13 @@ module.exports = {
   header: ({ theme }) => ({
     display: 'flex',
     minHeight: theme.space[7],
+    fontSize: theme.fontSizes[10],
+    padding: theme.space[4],
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center'
   }),
-  title: ({ theme }) => ({
-    fontSize: theme.fontSizes[5]
-  }),
   startButton: ({ theme }) => ({
+    marginTop: `${theme.space[4]} !important`
   })
 }

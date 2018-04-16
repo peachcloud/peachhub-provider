@@ -5,6 +5,7 @@ const { connect: connectStyles } = require('react-fela')
 const { connect: connectStore } = require('redux-bundler-react')
 const Typography = require('material-ui/Typography').default
 const Button = require('material-ui/Button').default
+const Paper = require('material-ui/Paper').default
 
 const styles = require('../styles/landing')
 
@@ -25,14 +26,13 @@ function Landing (props) {
     h('div', {
       className: styles.container
     }, [
-      h('header', {
+      h(Paper, {
         className: styles.header
       }, [
         h(Typography, {
           variant: 'display4',
           color: 'default',
-          align: 'center',
-          className: styles.title
+          align: 'center'
         }, [
           h('i', { className: 'em-svg em-peach' }),
           h('i', { className: 'em-svg em-cloud' })
