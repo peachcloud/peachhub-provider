@@ -21,6 +21,7 @@ a hosted Scuttlebutt pub-as-a-service provider
 before you start, please
 
 - [install `node@8` and `npm@5`](https://dogstack.js.org/guides/how-to-install-js.html)
+- [install `git-lfs`](https://git-lfs.github.com/)
 - [install and set up Postgres for your system](https://dogstack.js.org/guides/how-to-setup-sql-db.html)
 - create a database in Postgres named `buttcloud_provider_development` (see [Postgres DEV setup](#postgres-DEV-setup))
 
@@ -210,6 +211,20 @@ connect to your database with:
 psql -h localhost -U postgres -d buttcloud_provider_development
 ```
 
+## background image
+
+https://pixabay.com/en/love-heart-set-seamless-pattern-3102033/
+
+- search terms
+  - seamless
+  - tile
+  - repeating
+  - geometric
+  - abstract
+  - mosaic
+- open source friendly websites
+  - pixabay.com
+
 ## license
 
 AGPL-3.0
@@ -217,3 +232,4 @@ AGPL-3.0
 ### attributions
 
 - Emoji artwork is provided by [Twemoji](https://twitter.github.io/twemoji/) and is licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)
+

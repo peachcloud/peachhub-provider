@@ -13,11 +13,11 @@ module.exports = {
       left: 0,
       width: '100%',
       height: '100%',
-      opacity: 0.5,
+      opacity: 0.3,
       zIndex: -1,
       backgroundColor: theme.colors.canvas,
-      backgroundImage: 'url("https://upload.wikimedia.org/wikipedia/commons/7/73/Mammatus_clouds_regina_sk_june_2012.JPG")',
-      backgroundSize: 'cover'
+      backgroundImage: 'url("/background.svg")',
+      backgroundRepeat: 'repeat'
     }
   }),
   header: ({ theme }) => ({
