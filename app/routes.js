@@ -1,5 +1,6 @@
 const { createRouteBundle } = require('redux-bundler')
 
 module.exports = createRouteBundle({
-  '/': require('./pages/landing')
+  '/': require('./components/landing'),
+  '*': require('./components/not-found')
 })

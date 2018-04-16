@@ -20,15 +20,16 @@ module.exports = {
       backgroundSize: 'cover'
     }
   }),
-  header: () => ({
-    padding: '12px',
+  header: ({ theme }) => ({
     display: 'flex',
+    minHeight: theme.space[7],
     flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 0.5
+    justifyContent: 'space-around',
+    alignItems: 'center'
   }),
   title: ({ theme }) => ({
     fontSize: theme.fontSizes[5]
+  }),
+  startButton: ({ theme }) => ({
   })
 }

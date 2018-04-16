@@ -1,3 +1,4 @@
+const { Provider: StoreProvider } = require('redux-bundler-react')
 const { Provider: StyleProvider, ThemeProvider: StyleThemeProvider } = require('react-fela')
 const { createMuiTheme, MuiThemeProvider } = require('material-ui/styles')
 const h = require('react-hyperscript')
@@ -8,19 +9,24 @@ function Provider (props) {
   const {
     styleRenderer,
     theme,
+    store,
     children
   } = props
 
   return (
-    h(StyleProvider, {
-      renderer: styleRenderer
+    h(StoreProvider, {
+      store
     }, [
-      h(StyleThemeProvider, {
-        theme
+      h(StyleProvider, {
+        renderer: styleRenderer
       }, [
-        h(MuiThemeProvider, {
-          theme: themeToMuiTheme(theme)
-        }, children)
+        h(StyleThemeProvider, {
+          theme
+        }, [
+          h(MuiThemeProvider, {
+            theme: themeToMuiTheme(theme)
+          }, children)
+        ])
       ])
     ])
   )

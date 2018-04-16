@@ -1,27 +1,24 @@
 const h = require('react-hyperscript')
+const { compose } = require('recompose')
+const { connect: connectStore } = require('redux-bundler-react')
+const { partial } = require('ramda')
 
-const Provider = require('./provider')
 const Layout = require('./layout')
-const Page = require('../pages/landing')
 
-module.exports = App
+module.exports = compose(
+  partial(connectStore, [
+    'selectRoute'
+  ])
+)(App)
 
 function App (props) {
   const {
-    store,
-    styleRenderer,
-    theme
+    route: Page
   } = props
 
   return (
-    h(Provider, {
-      store,
-      styleRenderer,
-      theme
-    }, [
-      h(Layout, [
-        h(Page)
-      ])
+    h(Layout, [
+      h(Page)
     ])
   )
 }

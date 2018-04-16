@@ -209,3 +209,11 @@ connect to your database with:
 ```shell
 psql -h localhost -U postgres -d buttcloud_provider_development
 ```
+
+## license
+
+AGPL-3.0
+
+### attributions
+
+- Emoji artwork is provided by [Twemoji](https://twitter.github.io/twemoji/) and is licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)
