@@ -17,5 +17,6 @@ module.exports = composeBundles(
   appBundle,
   require('./routes'),
   require('../authentication/store'),
-  require('../users/store')
+  require('../users/store'),
+  require('../onboarding/store')
 )

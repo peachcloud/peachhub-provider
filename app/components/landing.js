@@ -43,7 +43,7 @@ function Landing (props) {
           size: 'large',
           className: styles.startButton,
           component: 'a',
-          href: '/onboarding'
+          href: '/onboarding/0'
         }, [
           'Start A Pub!'
         ])
