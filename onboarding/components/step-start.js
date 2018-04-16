@@ -14,7 +14,7 @@ const styles = require('../styles/step-start')
 module.exports = compose(
   connectStyles(styles),
   partial(connectStore, [
-    'selectOnboardingStartForm'
+    'doSubmitOnboardingStart'
   ]),
   connectForm({
     form: 'onboarding-start'
@@ -25,15 +25,37 @@ function OnboardingStepStart (props) {
   const {
     styles,
     handleSubmit,
-    onboardingStartForm: values
+    step,
+    doSubmitOnboardingStart: doSubmit
   } = props
 
-  console.log('values', values)
+  const {
+    isComplete
+  } = step
+
+  if (isComplete) {
+    return (
+      h('div', {
+        className: styles.completion
+      }, [
+        h(Typography, {
+          variant: 'body2'
+        }, [
+          'Please check your email to proceed! <3'
+        ]),
+        h(Typography, {
+          variant: 'body1'
+        }, [
+          'Did you not receive an email? TODO HELP'
+        ])
+      ])
+    )
+  }
 
   return (
     h('form', {
       className: styles.form,
-      onSubmit: handleSubmit
+      onSubmit: handleSubmit(doSubmit)
     }, [
       h('div', {
         className: styles.container

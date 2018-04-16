@@ -8,5 +8,9 @@ module.exports = {
     alignItems: 'center'
   }),
   submitButton: ({ theme }) => ({
+  }),
+  completion: ({ theme }) => ({
+    padding: theme.space[3],
+    textAlign: 'center'
   })
 }

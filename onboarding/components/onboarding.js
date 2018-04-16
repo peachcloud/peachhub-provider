@@ -4,8 +4,9 @@ const { addIndex, map, partial } = require('ramda')
 const { connect: connectStyles } = require('react-fela')
 const { connect: connectStore } = require('redux-bundler-react')
 const { default: Stepper, Step, StepLabel } = require('material-ui/Stepper')
-const Typography = require('material-ui/Typography').default
-const Button = require('material-ui/Button').default
+const Snackbar = require('material-ui/Snackbar').default
+const IconButton = require('material-ui/IconButton').default
+const Icon = require('material-ui/Icon').default
 
 const styles = require('../styles/onboarding')
 const steps = require('../data/steps')
@@ -15,26 +16,39 @@ module.exports = compose(
   partial(connectStore, [
     'selectOnboardingStepIndex',
     'selectOnboardingStep',
-    'doUpdateUrl'
+    'selectOnboardingSnackbar',
+    'doClearOnboardingSnackbar'
   ])
 )(Onboarding)
 
 function Onboarding (props) {
   const {
     styles,
-    onboardingStepIndex,
-    onboardingStep
+    onboardingStepIndex: stepIndex,
+    onboardingStep: step,
+    onboardingSnackbar: snackbar,
+    doClearOnboardingSnackbar: doClearSnackbar
   } = props
 
   return h('div', {
     className: styles.container
   }, [
     h(OnboardingStepper, {
-      onboardingStepIndex
+      styles,
+      stepIndex
     }),
 
-    onboardingStep != null && (
-      h(onboardingStep.Component)
+    h(OnboardingSnackbar, {
+      styles,
+      snackbar,
+      doClearSnackbar
+    }),
+
+    step != null && (
+      h(step.Component, {
+        step,
+        stepIndex
+      })
     )
   ])
 }
@@ -42,19 +56,19 @@ function Onboarding (props) {
 function OnboardingStepper (props) {
   const {
     styles,
-    onboardingStepIndex
+    stepIndex
   } = props
 
   return (
     h(Stepper, {
-      activeStep: onboardingStepIndex
+      activeStep: stepIndex
     }, [
       steps.map((step, index) => {
-        const { label } = step
+        const { label, isComplete } = step
         return (
           h(Step, {
             key: index,
-            completed: index < onboardingStepIndex
+            completed: isComplete
           }, [
             h(StepLabel, [
               label
@@ -66,3 +80,27 @@ function OnboardingStepper (props) {
   )
 }
 
+function OnboardingSnackbar (props) {
+  const {
+    styles,
+    snackbar,
+    doClearSnackbar
+  } = props
+
+  return (
+    h(Snackbar, {
+      open: snackbar.message != null,
+      onClose: doClearSnackbar,
+      message: snackbar.message,
+      action: [
+        h(IconButton, {
+          key: 'close',
+          'aria-label': 'Close',
+          onClick: doClearSnackbar
+        }, [
+          h(Icon, 'close')
+        ])
+      ]
+    })
+  )
+}

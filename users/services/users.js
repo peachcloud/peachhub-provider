@@ -1,5 +1,10 @@
 const KnexService = require('feathers-knex')
-const { hooks: authHooks } = require('@feathersjs/authentication')
+const auth = require('@feathersjs/authentication')
+const { restrictToOwner } = require('feathers-authentication-hooks')
+const { disallow } = require('feathers-hooks-common')
+const validateSchema = require('../../util/validateSchema')
+
+const createSchema = require('../schemas/createUser')
 
 module.exports = UsersService
 
@@ -14,6 +19,19 @@ function UsersService (server) {
 }
 
 const hooks = {
-  before: {},
+  before: {
+    find: disallow(),
+    get: [
+      auth.hooks.authenticate('jwt'),
+      restrictToOwner({
+        idField: 'id',
+        ownerField: 'id'
+      })
+    ],
+    create: validateSchema(createSchema),
+    update: disallow(),
+    patch: disallow(),
+    remove: disallow(),
+  },
   after: {}
 }

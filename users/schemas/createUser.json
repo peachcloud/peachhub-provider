@@ -1,0 +1,20 @@
+{
+  "title": "User",
+  "description": "A ButtCloud user",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 255
+    }
+  },
+  "required": [
+    "name",
+    "email"
+  ]
+}

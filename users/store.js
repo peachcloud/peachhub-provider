@@ -4,13 +4,13 @@ const { merge, prop } = require('ramda')
 module.exports = {
   name: 'users',
   getReducer: function () {
-    const initialData = {
+    const initialState = {
       data: null,
       isLoading: false,
       error: null
     }
 
-    return (state = initialData, { type, user, error }) => {
+    return (state = initialState, { type, user, error }) => {
       if (type === 'GET_USER_STARTED') {
         return merge(
           state,

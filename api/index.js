@@ -13,7 +13,7 @@ module.exports = ApiServer
 function ApiServer () {
   return Server('api', (server, config) => {
     const sql = Sql(config)
-    server.set('sql')
+    server.set('sql', sql)
 
     server.configure(socketio())
 
