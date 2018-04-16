@@ -1,16 +1,15 @@
-const MemoryService = require('feathers-memory')
+const KnexService = require('feathers-knex')
 const { hooks: authHooks } = require('@feathersjs/authentication')
 
 module.exports = UsersService
 
 function UsersService (server) {
-  // const db = server.get('db')
+  const sql = server.get('sql')
 
   const name = 'users'
-  // const options = { Model: db, name }
+  const options = { Model: sql, name }
 
-  // app.use(name, KnexService(options))
-  server.use(name, MemoryService())
+  server.use(name, KnexService(options))
   server.service(name).hooks(hooks)
 }
 

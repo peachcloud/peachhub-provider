@@ -7,7 +7,7 @@
     "burnthesql": "dropdb buttcloud_provider_development -h localhost -U postgres; createdb buttcloud_provider_development -h localhost -U postgres; npm run sql migrate:latest; npm run sql seed:run",
     "dev": "npm-run-all -p dev:*",
     "dev:api": "node-dev ./api/bin | pino-colada",
-    "dev:asset": "node-dev ./asset/bin | pino-colada",
+    "dev:asset": "node ./asset/bin | pino-colada",
     "dev:worker": "node ./worker/bin | pino-colada",
     "lint": "standard",
     "prod": "npm-run-all -p prod:*",
@@ -55,7 +55,6 @@
     "cors": "^2.8.4",
     "express-pino-logger": "^3.0.1",
     "feathers-knex": "^3.0.6",
-    "feathers-memory": "^2.1.1",
     "fela": "^6.1.7",
     "helmet": "^3.12.0",
     "internal-nav-helper": "^1.0.2",
@@ -83,6 +82,7 @@
   },
   "devDependencies": {
     "budo": "^11.2.0",
+    "maildev": "^1.0.0-rc3",
     "node-dev": "^3.1.3",
     "pino-colada": "^1.4.4",
     "standard": "^11.0.1"

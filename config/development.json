@@ -1,4 +1,20 @@
 {
+  "authentication": {
+    "secret": "secret"
+  },
+  "api": {
+    "port": "8001",
+    "url": "http://localhost:8001"
+  },
+  "asset": {
+    "directory": "asset/data",
+    "port": "8002",
+    "url": "http://localhost:8002"
+  },
+  "mailer": {
+    "port": 1025,
+    "ignoreTLS": true
+  },
   "sql": {
     "connection": {
       "host": "localhost",

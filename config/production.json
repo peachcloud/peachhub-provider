@@ -1,5 +1,15 @@
 {
+  "mailer": {
+    "service": "MAILER_SERVICE",
+    "auth": {
+      "user": "MAILER_AUTH_USER",
+      "pass": "MAILER_AUTH_PASS"
+    }
+  },
+  "redis": {
+    "url": "REDIS_URL"
+  },
   "sql": {
-    "connection": "DATABASE_URL"
+    "connection": "SQL_CONNECTION"
   }
 }
