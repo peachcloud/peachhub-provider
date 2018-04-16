@@ -21,12 +21,14 @@ function Navigation (props) {
     }, [
       h(AppBar, {
         position: 'static',
-        color: 'default'
+        color: 'primary'
       }, [
         h(Toolbar, [
           h(Typography, {
+            className: styles.title,
             variant: 'title',
-            color: 'inherit'
+            component: 'a',
+            href: '/'
           }, [
             'ButtCloud'
           ])
