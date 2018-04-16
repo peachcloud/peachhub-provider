@@ -1,5 +1,6 @@
 const { createSelector } = require('redux-bundler')
-const { pipe, prop, __ } = require('ramda')
+const { partialRight, pipe, prop, __ } = require('ramda')
+const { formValueSelector } = require('redux-form')
 
 const steps = require('./data/steps')
 
@@ -20,6 +21,10 @@ module.exports = {
     'selectOnboardingStepIndex',
     prop(__, steps)
   ),
+  selectOnboardingStartForm: partialRight(formValueSelector('onboarding-start'), [
+    'name',
+    'email'
+  ]),
   reactEnsureValidOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
