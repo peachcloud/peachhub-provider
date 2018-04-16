@@ -9,6 +9,7 @@
     "dev:api": "node-dev ./api/bin | pino-colada",
     "dev:asset": "node ./asset/bin | pino-colada",
     "dev:worker": "node ./worker/bin | pino-colada",
+    "inspect": "bankai inspect ./app/index.js",
     "lint": "standard",
     "prod": "npm-run-all -p prod:*",
     "prod:api": "node ./api/bin",
