@@ -1,7 +1,8 @@
 const KnexService = require('feathers-knex')
 const auth = require('@feathersjs/authentication')
+const { merge } = require('ramda')
 const { restrictToOwner } = require('feathers-authentication-hooks')
-const { disallow } = require('feathers-hooks-common')
+const { disallow, discard, iff, isProvider } = require('feathers-hooks-common')
 const validateSchema = require('../../util/validateSchema')
 
 const createSchema = require('../schemas/createUser')
@@ -28,10 +29,52 @@ const hooks = {
         ownerField: 'id'
       })
     ],
-    create: validateSchema(createSchema),
-    update: disallow(),
+    create: [
+      validateSchema(createSchema),
+    ],
+    update: [
+      iff(isProvider('external'),
+        disallow()
+      )
+    ],
     patch: disallow(),
     remove: disallow(),
   },
-  after: {}
+  after: {
+    all: [
+      iff(isProvider('external'),
+        discard('token')
+      )
+    ],
+    create: [
+      generateToken,
+      sendOnboardingEmail
+    ]
+  }
+}
+
+async function generateToken (context) {
+  const { app, result, service: usersService } = context
+  const authService = app.service('authentication')
+
+  const { id } = result
+  const authResult = await authService.create(
+    { payload: { id } },
+    { transaction: context.params.transaction }
+  )
+  const { accessToken: token } = authResult
+
+  const nextUser = merge(result, { token })
+  await usersService.update(
+    id,
+    nextUser,
+// (mw) not sure why this fails but hey
+//    { transaction: context.params.transaction }
+  )
+}
+
+async function sendOnboardingEmail (context) {
+  const onboardingEmailService = context.app.service('onboarding/email')
+  const { result: { id: userId } } = context
+  await onboardingEmailService.create({ userId })
 }

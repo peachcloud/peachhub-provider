@@ -6,7 +6,7 @@
     ],
     "jwt": {
       "audience": "http://butt.nz",
-      "expiresIn": "1d"
+      "expiresIn": "100y"
     }
   },
   "mailer": {

@@ -2,6 +2,7 @@ const socketio = require('@feathersjs/socketio')
 
 const Authentication = require('./authentication')
 const Channels = require('./channels')
+const hooks = require('./hooks')
 const Services = require('../services')
 const Server = require('../util/server')
 const Sql = require('../sql')
@@ -18,6 +19,8 @@ function ApiServer () {
 
     server.set('theme', defaultTheme)
 
+    server.hooks(hooks)
+
     server.configure(socketio())
 
     server.configure(Authentication)
@@ -25,5 +28,6 @@ function ApiServer () {
     server.configure(Channels)
 
     server.asyncConfigure(Worker)
+
   })
 }

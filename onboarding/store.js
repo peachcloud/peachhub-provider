@@ -76,7 +76,8 @@ module.exports = {
     prop(__, steps)
   ),
   doClearOnboardingUser: () => ({ dispatch }) => {
-    window.localStorage.clearItem(ONBOARDING_USER)
+    window.localStorage.removeItem(ONBOARDING_USER)
+    dispatch({ type: 'ONBOARDING_USER', user: null })
   },
   doResendOnboardingEmail: (userId) => ({ dispatch, client }) => {
     return client.service('onboarding/email')
@@ -114,7 +115,7 @@ module.exports = {
         })
       })
       .catch(err => {
-        if (err.errors) throw new SubmissionError(err.errors)
+        if (err.errors && Object.keys(err.errors) > 0) throw new SubmissionError(err.errors)
 
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',

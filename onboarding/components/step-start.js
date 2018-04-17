@@ -15,6 +15,7 @@ module.exports = compose(
   connectStyles(styles),
   partial(connectStore, [
     'doSubmitOnboardingStart',
+    'doClearOnboardingUser',
     'doResendOnboardingEmail',
     'selectOnboardingUser'
   ]),
@@ -41,6 +42,7 @@ function OnboardingStepStartCompletion (props) {
   const {
     styles,
     onboardingUser: user,
+    doClearOnboardingUser,
     doResendOnboardingEmail
   } = props
 
@@ -84,6 +86,19 @@ function OnboardingStepStartCompletion (props) {
           onClick: handleResendEmail
         }, [
           'Resend Email'
+        ]),
+      ]),
+      h(Typography, {
+        variant: 'caption',
+        paragraph: true
+      }, [
+        h(Button, {
+          variant: 'flat',
+          color: 'default',
+          size: 'small',
+          onClick: doClearOnboardingUser
+        }, [
+          'Start Over'
         ])
       ])
     ])
