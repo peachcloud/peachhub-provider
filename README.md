@@ -24,6 +24,7 @@ before you start, please
 - [install `git-lfs`](https://git-lfs.github.com/)
 - [install and set up Postgres for your system](https://dogstack.js.org/guides/how-to-setup-sql-db.html)
 - create a database in Postgres named `buttcloud_provider_development` (see [Postgres DEV setup](#postgres-DEV-setup))
+- install Redis
 
 ```shell
 git clone git@github.com:buttcloud/buttcloud-provider
