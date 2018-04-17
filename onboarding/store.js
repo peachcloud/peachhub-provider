@@ -3,12 +3,13 @@ const { merge, partialRight, path, pipe, prop, __ } = require('ramda')
 const { SubmissionError } = require('redux-form')
 
 const steps = require('./data/steps')
+const ONBOARDING_USER = 'buttcloud_onboardingUser'
 
 module.exports = {
   name: 'onboarding',
   getReducer: () => {
     const initialState = {
-      completion: steps.map(() => false),
+      user: null,
       snackbar: {
         message: null,
         error: null
@@ -17,16 +18,11 @@ module.exports = {
 
     return (state = initialState, action) => {
       const { type } = action
-      if (type === 'ONBOARDING_COMPLETE_STEP') {
-        const { stepIndex } = action
+      if (type === 'ONBOARDING_USER') {
+        const { user } = action
         return merge(
           state,
-          {
-            completion: merge(
-              state.completion,
-              { [stepIndex]: true }
-            )
-          }
+          { user }
         )
       }
       else if (type === 'ONBOARDING_SNACKBAR_SET') {
@@ -55,6 +51,7 @@ module.exports = {
     }
   },
   selectOnboardingSnackbar: path(['onboarding', 'snackbar']),
+  selectOnboardingUser: path(['onboarding', 'user']),
   selectIsOnboarding: createSelector(
     'selectRouteParams',
     (routeParams) => routeParams.hasOwnProperty('onboardingStepIndex')
@@ -63,35 +60,55 @@ module.exports = {
     'selectRouteParams',
     pipe(prop('onboardingStepIndex'), Number)
   ),
-  selectOnboardingCompletion: path(['onboarding', 'completion']),
-  selectOnboardingStepCompletion: createSelector(
+  selectOnboardingSteps: createSelector(
     'selectOnboardingStepIndex',
-    'selectOnboardingCompletion',
-    prop
-  ),
-  selectOnboardingStep: createSelector(
-    'selectOnboardingStepIndex',
-    'selectOnboardingStepCompletion',
-    (stepIndex, stepCompletion) => {
-      const step = steps[stepIndex]
-      return merge(step, {
-        isComplete: stepCompletion
+    (stepIndex) => {
+      return steps.map((step, index) => {
+        const isComplete = stepIndex > index
+        return merge(step, {
+          isComplete
+        })
       })
     }
   ),
+  selectOnboardingStep: createSelector(
+    'selectOnboardingStepIndex',
+    prop(__, steps)
+  ),
+  doClearOnboardingUser: () => ({ dispatch }) => {
+    window.localStorage.clearItem(ONBOARDING_USER)
+  },
+  doResendOnboardingEmail: (userId) => ({ dispatch, client }) => {
+    return client.service('onboarding/email')
+      .create({ userId })
+      .catch(err => {
+        dispatch({
+          type: 'ONBOARDING_SNACKBAR_SET',
+          snackbar: {
+            message: err.message,
+            error: true
+          }
+        })
+        throw err
+      })
+  },
   doSubmitOnboardingStart: (data) => ({ dispatch, client }) => {
     return client.service('users')
       .create(data)
       .then(user => {
-        const { name, email } = user
+        const userString = JSON.stringify(user)
+        window.localStorage.setItem(ONBOARDING_USER, userString)
+
         dispatch({
-          type: 'ONBOARDING_COMPLETE_STEP',
-          stepIndex: 0
+          type: 'ONBOARDING_USER',
+          user
         })
+
+        const { name, email } = user
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',
           snackbar: {
-            message: 'Sent you an email with a link to continue!',
+            message: `Hey ${name}, we sent you an email at ${email} with a link to continue with ButtCloud!`,
             error: false
           }
         })
@@ -127,5 +144,14 @@ module.exports = {
         args: ['/onboarding/0']
       }
     }
-  )
+  ),
+  init: function (store) {
+    const userString = window.localStorage.getItem(ONBOARDING_USER)
+    if (userString != null) {
+      try {
+        const user = JSON.parse(userString)
+        store.dispatch({ type: 'ONBOARDING_USER', user })
+      } catch (err) {}
+    }
+  }
 }

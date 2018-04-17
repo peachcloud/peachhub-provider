@@ -9,6 +9,9 @@
       "expiresIn": "1d"
     }
   },
+  "mailer": {
+    "from": "hello@buttcloud.org"
+  },
   "sql": {
     "migrations": {
       "directory": "sql/migrations"

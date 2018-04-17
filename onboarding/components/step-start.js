@@ -14,43 +14,98 @@ const styles = require('../styles/step-start')
 module.exports = compose(
   connectStyles(styles),
   partial(connectStore, [
-    'doSubmitOnboardingStart'
+    'doSubmitOnboardingStart',
+    'doResendOnboardingEmail',
+    'selectOnboardingUser'
   ]),
-  connectForm({
-    form: 'onboarding-start'
-  })
 )(OnboardingStepStart)
 
 function OnboardingStepStart (props) {
   const {
     styles,
-    handleSubmit,
-    step,
-    doSubmitOnboardingStart: doSubmit
+    onboardingUser: user
   } = props
 
-  const {
-    isComplete
-  } = step
+  return (
+    h('div', {
+      className: styles.container
+    }, [
+      user
+        ? h(OnboardingStepStartCompletion, props)
+        : h(OnboardingStepStartFormConnected, props)
+    ])
+  )
+}
 
-  if (isComplete) {
-    return (
-      h('div', {
-        className: styles.completion
+function OnboardingStepStartCompletion (props) {
+  const {
+    styles,
+    onboardingUser: user,
+    doResendOnboardingEmail
+  } = props
+
+  const { id, name, email } = user
+
+  return (
+    h('div', {
+      className: styles.completion
+    }, [
+      h(Typography, {
+        variant: 'body2',
+        paragraph: true
       }, [
-        h(Typography, {
-          variant: 'body2'
+        ' Hey ',
+        name,
+        '! ',
+        h('i', { className: 'em-svg em-wave' })
+      ]),
+      h(Typography, {
+        variant: 'body2',
+        paragraph: true
+      }, [
+        'We sent a message ',
+        h('i', { className: 'em-svg em-email' }),
+        ' to you at ',
+        email,
+        ' with a link to continue onto ButtCloud.',
+        h('i', { className: 'em-svg em-peach' }),
+        h('i', { className: 'em-svg em-cloud' })
+      ]),
+      h(Typography, {
+        variant: 'body1',
+        paragraph: true
+      }, [
+        "Can't find the email? ",
+        h('i', { className: 'em-svg em-anguished' }),
+        h(Button, {
+          variant: 'flat',
+          color: 'default',
+          size: 'small',
+          onClick: handleResendEmail
         }, [
-          'Please check your email to proceed! <3'
-        ]),
-        h(Typography, {
-          variant: 'body1'
-        }, [
-          'Did you not receive an email? TODO HELP'
+          'Resend Email'
         ])
       ])
-    )
+    ])
+  )
+
+  function handleResendEmail () {
+    doResendOnboardingEmail(id)
   }
+}
+
+const OnboardingStepStartFormConnected = compose(
+  connectForm({
+    form: 'onboarding-start'
+  })
+)(OnboardingStepStartForm)
+
+function OnboardingStepStartForm (props) {
+  const {
+    styles,
+    handleSubmit,
+    doSubmitOnboardingStart: doSubmit
+  } = props
 
   return (
     h('form', {
@@ -58,7 +113,7 @@ function OnboardingStepStart (props) {
       onSubmit: handleSubmit(doSubmit)
     }, [
       h('div', {
-        className: styles.container
+        className: styles.fields
       }, [
         h(Field, {
           name: 'name',

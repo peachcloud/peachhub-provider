@@ -1,5 +1,6 @@
 const services = [
-  require('./users/services/users')
+  require('./users/services/users'),
+  require('./onboarding/services/email')
 ]
 
 module.exports = Services

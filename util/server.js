@@ -23,7 +23,8 @@ function Server (name, cb) {
     ? Logger({ logger: config.logger.child({ name }) })
     : Logger({ name })
   server.use(logger)
-  const log = server.log = logger.logger
+  const log = logger.logger
+  server.set('logger', log) 
 
   server.config = config
   server.configure(configuration())

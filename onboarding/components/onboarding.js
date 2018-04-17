@@ -4,9 +4,11 @@ const { addIndex, map, partial } = require('ramda')
 const { connect: connectStyles } = require('react-fela')
 const { connect: connectStore } = require('redux-bundler-react')
 const { default: Stepper, Step, StepLabel } = require('material-ui/Stepper')
-const Snackbar = require('material-ui/Snackbar').default
+const Divider = require('material-ui/Divider').default
 const IconButton = require('material-ui/IconButton').default
 const Icon = require('material-ui/Icon').default
+const Paper = require('material-ui/Paper').default
+const Snackbar = require('material-ui/Snackbar').default
 
 const styles = require('../styles/onboarding')
 const steps = require('../data/steps')
@@ -16,6 +18,7 @@ module.exports = compose(
   partial(connectStore, [
     'selectOnboardingStepIndex',
     'selectOnboardingStep',
+    'selectOnboardingSteps',
     'selectOnboardingSnackbar',
     'doClearOnboardingSnackbar'
   ])
@@ -26,17 +29,21 @@ function Onboarding (props) {
     styles,
     onboardingStepIndex: stepIndex,
     onboardingStep: step,
+    onboardingSteps: steps,
     onboardingSnackbar: snackbar,
     doClearOnboardingSnackbar: doClearSnackbar
   } = props
 
-  return h('div', {
+  return h(Paper, {
     className: styles.container
   }, [
     h(OnboardingStepper, {
       styles,
-      stepIndex
+      stepIndex,
+      steps
     }),
+
+    h(Divider),
 
     h(OnboardingSnackbar, {
       styles,
@@ -56,7 +63,8 @@ function Onboarding (props) {
 function OnboardingStepper (props) {
   const {
     styles,
-    stepIndex
+    stepIndex,
+    steps
   } = props
 
   return (

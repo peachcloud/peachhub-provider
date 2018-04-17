@@ -1,8 +1,10 @@
 module.exports = {
-  // (mw) the container is a form, so it can't do flexbox
-  form: () => ({}),
   container: ({ theme }) => ({
-    margin: theme.space[3],
+    padding: theme.space[3]
+  }),
+  // (mw) a form can't do flexbox
+  form: () => ({}),
+  fields: ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'

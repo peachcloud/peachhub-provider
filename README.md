@@ -211,7 +211,7 @@ connect to your database with:
 psql -h localhost -U postgres -d buttcloud_provider_development
 ```
 
-## background image
+### background image
 
 https://pixabay.com/en/love-heart-set-seamless-pattern-3102033/
 
@@ -224,6 +224,10 @@ https://pixabay.com/en/love-heart-set-seamless-pattern-3102033/
   - mosaic
 - open source friendly websites
   - pixabay.com
+
+### emoji
+
+- https://afeld.github.io/emoji-css/
 
 ## license
 

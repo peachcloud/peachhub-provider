@@ -42,7 +42,6 @@ function Landing (props) {
           color: 'primary',
           size: 'large',
           className: styles.startButton,
-          component: 'a',
           href: '/onboarding/0'
         }, [
           'Start A Pub!'

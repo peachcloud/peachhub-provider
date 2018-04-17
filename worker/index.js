@@ -14,7 +14,7 @@ async function startWorker () {
   const redisUrl = getRedisUrl(config)
   const logger = config.logger
     ? config.logger.child({ name: 'worker' })
-    : Logger({ name: 'worker' })
+    : Logger({ name: 'worker', level: 'debug' })
   const connection = {
     redis: new Redis(redisUrl)
   }
@@ -53,7 +53,7 @@ async function createScheduler ({ connection, logger }) {
 
 async function createWorker ({ connection, logger }) {
   const queues = [
-    'main' // TODO what queues?
+    'mailer'
   ]
   const jobs = Jobs(config)
   const worker = new Resque.Worker({ connection, queues }, jobs)

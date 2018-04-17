@@ -75,8 +75,8 @@ module.exports = {
     },
     secondary: {
       light: purple[300],
-      main: teal[600],
-      dark: teal[900],
+      main: purple[600],
+      dark: purple[900],
       contrastText: grey[50]
     },
     greys: [

@@ -12,6 +12,8 @@ const getAssetDirectory = path(['asset', 'directory'])
 
 function AssetServer () {
   return Server('asset', (server, config) => {
+    const log = server.get('logger')
+
     server.use(favicon(join(getAssetDirectory(config), 'favicon.ico')))
 
     server.use('/', express.static(getAssetDirectory(config)))
@@ -20,7 +22,7 @@ function AssetServer () {
     const compiler = compilerHandler.compiler
     server.use(compilerHandler)
     compiler.on('error', (nodeName, edgeName, err) => {
-      server.log.fatal(err)
+      log.fatal(err)
     })
   })
 }
