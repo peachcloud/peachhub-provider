@@ -59,41 +59,36 @@ function createHtml ({ assetUrl, log, setupUrl, theme, user }) {
       mode="fixed-height"
       height="469px"
       width="100%"
+      vertical-align="middle"
       background-width="600px"
       background-height="469px"
       background-url="${assetUrl}/background.svg"
       background-color="#2a3448"
       padding="100px 0px"
     >
-      <mj-wrapper
-        width="300px"
-        padding-left="100px"
-        padding-right="100px"
-        background-color="${theme.colors.greys[2]}"
+      <mj-text
+        padding="20px"
+        color="${theme.colors.secondary.dark}"
+        font-family="Helvetica"
+        align="center"
+        font-size="80px"
+        line-height="80px"
+        font-weight="900"
       >
-        <mj-text
-          padding-top="20px"
-          padding-left="20px"
-          padding-right="20px"
-          padding-bottom="40px"
-          color="${theme.colors.secondary.main}"
-          font-family="Helvetica"
-          align="center"
-          font-size="45px"
-          line-height="45px"
-          font-weight="900"
-        >
-          Hey ${user.name}!
-        </mj-text>
-        <mj-button
-          href="${setupUrl}"
-          align="center"
-          background-color="${theme.colors.secondary.dark}"
-          color="${theme.colors.secondary.contrastText}"
-        >
-          SETUP YOUR PUB
-        </mj-button>
-      </mj-wrapper>
+        WELCOME!
+      </mj-text>
+      <mj-button
+        href="${setupUrl}"
+        align="center"
+        background-color="${theme.colors.secondary.main}"
+        color="${theme.colors.secondary.contrastText}"
+        font-size="30px"
+        line-height="30px"
+        font-weight="900"
+        inner-padding="15px 40px"
+      >
+        SETUP YOUR PUB
+      </mj-button>
   </mj-body>
 </mjml>
   `)
