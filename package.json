@@ -5,6 +5,7 @@
   "scripts": {
     "burnthemall": "rm -rf package-lock.json node_modules; npm i",
     "burnthesql": "dropdb buttcloud_provider_development -h localhost -U postgres; createdb buttcloud_provider_development -h localhost -U postgres; npm run sql migrate:latest; npm run sql seed:run",
+    "debug": "DEBUG=*,-babel npm run dev",
     "dev": "npm-run-all -p dev:*",
     "dev:api": "node-dev ./api/bin | pino-colada",
     "dev:asset": "node ./asset/bin | pino-colada",

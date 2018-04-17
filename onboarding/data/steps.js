@@ -4,7 +4,7 @@ const steps = [
     Component: require('../components/step-start')
   },
   {
-    label:  'pick',
+    label:  'setup',
     Component: () => null
   },
   {
