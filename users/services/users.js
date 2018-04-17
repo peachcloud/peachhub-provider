@@ -57,16 +57,20 @@ async function generateToken (context) {
   const { app, result, service: usersService } = context
   const authService = app.service('authentication')
 
-  const { id } = result
+  const { id: userId } = result
+
   const authResult = await authService.create(
-    { payload: { id } },
-    { transaction: context.params.transaction }
+    {},
+    {
+      payload: { userId },
+      transaction: context.params.transaction
+    }
   )
   const { accessToken: token } = authResult
 
   const nextUser = merge(result, { token })
   await usersService.update(
-    id,
+    userId,
     nextUser,
 // (mw) not sure why this fails but hey
 //    { transaction: context.params.transaction }

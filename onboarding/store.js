@@ -51,7 +51,14 @@ module.exports = {
     }
   },
   selectOnboardingSnackbar: path(['onboarding', 'snackbar']),
-  selectOnboardingUser: path(['onboarding', 'user']),
+  selectOnboardingStoredUser: path(['onboarding', 'user']),
+  selectOnboardingUser: createSelector(
+    'selectOnboardingStoredUser',
+    'selectAuthenticatedUser',
+    (storedUser, authenticatedUser) => {
+      return authenticatedUser || storedUser
+    }
+  ),
   selectIsOnboarding: createSelector(
     'selectRouteParams',
     (routeParams) => routeParams.hasOwnProperty('onboardingStepIndex')
@@ -133,17 +140,38 @@ module.exports = {
   reactEnsureValidOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
-    (isOnboarding, step) => {
+    'selectIsAuthenticated',
+    (isOnboarding, stepIndex, isAuthenticated) => {
       if (!isOnboarding) return false
+
+      // if out-of-bounds, reset to step 0
       if (
-        step != null &&
-        step >= 0 ||
-        step < steps.length
-      ) return false
-      return {
-        actionCreator: 'doUpdateUrl',
-        args: ['/onboarding/0']
+        stepIndex == null ||
+        stepIndex < 0 ||
+        stepIndex >= steps.length
+      ) {
+        return {
+          actionCreator: 'doUpdateUrl',
+          args: ['/onboarding/0']
+        }
       }
+
+      // if authenticated, at least step 1
+      if (isAuthenticated && stepIndex < 1) {
+        return {
+          actionCreator: 'doUpdateUrl',
+          args: ['/onboarding/1']
+        }
+      }
+    }
+  ),
+  reactClearOnboardingUserWhenAuthenticatedUser: createSelector(
+    'selectAuthenticatedUser',
+    'selectOnboardingStoredUser',
+    (authenticatedUser, onboardingUser) => {
+      if (!authenticatedUser) return false
+      if (!onboardingUser) return false
+      return { actionCreator: 'doClearOnboardingUser' }
     }
   ),
   init: function (store) {
