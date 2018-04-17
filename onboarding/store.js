@@ -137,7 +137,7 @@ module.exports = {
   doClearOnboardingSnackbar: () => ({ dispatch }) => {
     dispatch({ type: 'ONBOARDING_SNACKBAR_CLEAR' })
   },
-  reactEnsureValidOnboardingStepIndex: createSelector(
+  reactShouldUpdateOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
     'selectIsAuthenticated',
@@ -165,7 +165,7 @@ module.exports = {
       }
     }
   ),
-  reactClearOnboardingUserWhenAuthenticatedUser: createSelector(
+  reactShouldClearOnboardingUserWhenAuthenticatedUser: createSelector(
     'selectAuthenticatedUser',
     'selectOnboardingStoredUser',
     (authenticatedUser, onboardingUser) => {
