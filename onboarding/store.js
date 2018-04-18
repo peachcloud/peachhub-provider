@@ -1,6 +1,6 @@
 const { createSelector } = require('redux-bundler')
+const { FORM_ERROR } = require('final-form')
 const { merge, partialRight, path, pipe, prop, __ } = require('ramda')
-const { SubmissionError } = require('redux-form')
 
 const steps = require('./data/steps')
 const ONBOARDING_USER = 'buttcloud_onboardingUser'
@@ -122,7 +122,15 @@ module.exports = {
         })
       })
       .catch(err => {
-        if (err.errors && Object.keys(err.errors) > 0) throw new SubmissionError(err.errors)
+
+        // TODO these currently don't show up in `redux-form-material-ui` components
+        // because in `final-form` this shows up as a field-level `submitError` not `error`
+        if (err.errors && Object.keys(err.errors).length > 0) {
+          return err.errors
+        }
+
+        // TODO use `final-form` form-level `submitError` and remove snackbar for errors
+        // https://codesandbox.io/s/9y9om95lyp
 
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',
@@ -131,7 +139,8 @@ module.exports = {
             error: true
           }
         })
-        throw err
+
+        return { [FORM_ERROR]: err.message }
       })
   },
   doClearOnboardingSnackbar: () => ({ dispatch }) => {

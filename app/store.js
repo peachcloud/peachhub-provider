@@ -1,5 +1,4 @@
 const { composeBundles } = require('redux-bundler')
-const { reducer: formReducer } = require('redux-form')
 
 const config = require('../config')
 const createClient = require('./client')
@@ -14,14 +13,8 @@ const appBundle = {
   }
 }
 
-const formBundle = {
-  name: 'form',
-  reducer: formReducer
-}
-
 module.exports = composeBundles(
   appBundle,
-  formBundle,
   require('./routes'),
   require('../authentication/store'),
   require('../users/store'),

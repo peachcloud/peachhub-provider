@@ -3,12 +3,13 @@ const { compose, lifecycle } = require('recompose')
 const { partial } = require('ramda')
 const { connect: connectStyles } = require('react-fela')
 const { connect: connectStore } = require('redux-bundler-react')
-const { reduxForm: connectForm, Field } = require('redux-form')
+const { Form, Field } = require('react-final-form')
 const { TextField } = require('redux-form-material-ui')
-const { required, email } = require('redux-form-validators')
+const validate = require('redux-form-with-ajv').default
 const Typography = require('material-ui/Typography').default
 const Button = require('material-ui/Button').default
 
+const schema = require('../../users/schemas/createUser')
 const styles = require('../styles/step-start')
 
 module.exports = compose(
@@ -33,7 +34,7 @@ function OnboardingStepStart (props) {
     }, [
       user
         ? h(OnboardingStepStartCompletion, props)
-        : h(OnboardingStepStartFormConnected, props)
+        : h(OnboardingStepStartForm, props)
     ])
   )
 }
@@ -109,12 +110,6 @@ function OnboardingStepStartCompletion (props) {
   }
 }
 
-const OnboardingStepStartFormConnected = compose(
-  connectForm({
-    form: 'onboarding-start'
-  })
-)(OnboardingStepStartForm)
-
 function OnboardingStepStartForm (props) {
   const {
     styles,
@@ -123,47 +118,46 @@ function OnboardingStepStartForm (props) {
   } = props
 
   return (
-    h('form', {
-      className: styles.form,
-      onSubmit: handleSubmit(doSubmit)
-    }, [
-      h('div', {
-        className: styles.fields
-      }, [
-        h(Field, {
-          name: 'name',
-          component: TextField,
-          placeholder: 'Ash',
-          label: 'Name',
-          helperText: 'What should we call you?',
-          fullWidth: true,
-          margin: 'normal',
-          validate: [
-            required()
-          ]
-        }),
-        h(Field, {
-          name: 'email',
-          component: TextField,
-          placeholder: 'ash@example.com',
-          label: 'Email',
-          helperText: 'Where should we message you?',
-          fullWidth: true,
-          margin: 'normal',
-          validate: [
-            required(),
-            email()
-          ]
-        }),
-        h(Button, {
-          className: styles.submitButton,
-          variant: 'raised',
-          color: 'primary',
-          type: 'submit',
+    h(Form, {
+      onSubmit: doSubmit,
+      validate: validate(schema),
+      render: ({ handleSubmit }) => (
+        h('form', {
+          className: styles.form,
+          onSubmit: handleSubmit
         }, [
-          'Start'
+          h('div', {
+            className: styles.fields
+          }, [
+            h(Field, {
+              name: 'name',
+              component: TextField,
+              placeholder: 'Ash',
+              label: 'Name',
+              helperText: 'What should we call you?',
+              fullWidth: true,
+              margin: 'normal'
+            }),
+            h(Field, {
+              name: 'email',
+              component: TextField,
+              placeholder: 'ash@example.com',
+              label: 'Email',
+              helperText: 'Where should we message you?',
+              fullWidth: true,
+              margin: 'normal'
+            }),
+            h(Button, {
+              className: styles.submitButton,
+              variant: 'raised',
+              color: 'primary',
+              type: 'submit',
+            }, [
+              'Start'
+            ])
+          ])
         ])
-      ])
-    ])
+      )
+    })
   )
 }
