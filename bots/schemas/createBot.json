@@ -11,7 +11,7 @@
       "type": "string",
       "format": "email",
       "maxLength": 255
-    }
+    },
     "name": {
       "type": "string",
       "maxLength": 255

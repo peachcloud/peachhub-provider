@@ -1,11 +1,11 @@
 const KnexService = require('feathers-knex')
 const auth = require('feathers-authentication')
 const { merge } = require('ramda')
-const { restrictOwner } = require('feathers-authentication-hooks')
+const { restrictToOwner } = require('feathers-authentication-hooks')
 const { disallow, discard, iff, isProvider } = require('feathers-hooks-common')
 const validateSchema = require('../../util/validateSchema')
 
-const createSchema = require('../schema/createBot')
+const createSchema = require('../schemas/createBot')
 
 module.exports = BotsService
 
@@ -16,13 +16,13 @@ function BotsService (server) {
   const options = { Model: sql, name }
 
   server.use(name, KnexService(options))
-  server.use(name).hooks(hooks)
+  server.service(name).hooks(hooks)
 }
 
 const hooks = {
   before: {
     all: [
-      auth.hook.authenticate('jwt'),
+      auth.hooks.authenticate('jwt'),
       restrictToOwner({
         idField: 'userId',
         ownerField: 'userId'
