@@ -1,0 +1,25 @@
+{
+  "title": "Bot",
+  "description": "A ButtCloud Pub",
+  "type": "object",
+  "properties": {
+    "botId": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "userId": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 255
+    }
+    "name": {
+      "type": "string",
+      "maxLength": 255
+    }
+  },
+  "required": [
+    "botId",
+    "userId",
+    "name"
+  ]
+}

@@ -24,8 +24,8 @@ const hooks = {
     all: [
       auth.hook.authenticate('jwt'),
       restrictToOwner({
-        idField: 'id',
-        ownerField: 'id'
+        idField: 'userId',
+        ownerField: 'userId'
       })
     ],
     find : [
