@@ -146,6 +146,29 @@ module.exports = {
   doClearOnboardingSnackbar: () => ({ dispatch }) => {
     dispatch({ type: 'ONBOARDING_SNACKBAR_CLEAR' })
   },
+  doSubmitOnboardingSetup: data => ({ dispatch, client }) => {
+    return client.service('bots')
+      .create(data)
+      .then(bot => {
+        const botString = JSON.stringify(bot)
+
+        dispatch({
+          type: 'ONBOARDING_BOT',
+          bot
+        })
+
+        const { name } = bot
+        dispatch({
+          type: 'ONBOARDING_SNACKBAR_SET',
+          snackbar: {
+            message: `Bot ${ name } is being created`,
+            error: false
+          }
+        })
+      })
+      .catch(err => console.log(err))
+  },
+  selectOnboardingUserBot: () => {}, //TODO
   reactShouldUpdateOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',

@@ -5,7 +5,7 @@ const steps = [
   },
   {
     label:  'setup',
-    Component: () => null
+    Component: require('../components/step-setup')
   },
   {
     label:  'pay',
