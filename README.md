@@ -185,6 +185,14 @@ npm run sql seed:run
 
 ## notes
 
+### After deploy: migrate on heroku!
+
+```shell
+heroku login
+heroku run npm run sql migrate:latest --app=buttcloud-demo
+```
+
+
 ### Postgres DEV setup
 
 use a [`~/.pgpass`](https://www.postgresql.org/docs/current/static/libpq-pgpass.html) file to automate your passwords!
