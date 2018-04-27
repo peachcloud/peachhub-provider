@@ -11,24 +11,18 @@ const Navigation = require('./navigation')
 
 module.exports = compose(
   connectStyles(styles),
-  partial(connectStore, [
-    'doUpdateUrl'
-  ])
+  partial(connectStore, ['doUpdateUrl'])
 )(Layout)
 
 function Layout (props) {
-  const {
-    styles,
-    children,
-    doUpdateUrl
-  } = props
+  const { styles, children, doUpdateUrl } = props
 
-  return h('div', {
-    className: styles.container,
-    onClick: navHelper(doUpdateUrl)
-  }, [
-    h(CssBaseline),
-    h(Navigation),
-    children
-  ])
+  return h(
+    'div',
+    {
+      className: styles.container,
+      onClick: navHelper(doUpdateUrl)
+    },
+    [h(CssBaseline), h(Navigation), children]
+  )
 }

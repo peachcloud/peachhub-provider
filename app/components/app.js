@@ -5,20 +5,10 @@ const { partial } = require('ramda')
 
 const Layout = require('./layout')
 
-module.exports = compose(
-  partial(connectStore, [
-    'selectRoute'
-  ])
-)(App)
+module.exports = compose(partial(connectStore, ['selectRoute']))(App)
 
 function App (props) {
-  const {
-    route: Page
-  } = props
+  const { route: Page } = props
 
-  return (
-    h(Layout, [
-      h(Page)
-    ])
-  )
+  return h(Layout, [h(Page)])
 }

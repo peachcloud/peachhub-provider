@@ -8,9 +8,11 @@ function createClient (config) {
 
   const client = feathers()
     .configure(socketio(socket))
-    .configure(authentication({
-      storage: window.localStorage
-    }))
+    .configure(
+      authentication({
+        storage: window.localStorage
+      })
+    )
 
   return client
 }

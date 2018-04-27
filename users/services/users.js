@@ -29,27 +29,14 @@ const hooks = {
         ownerField: 'id'
       })
     ],
-    create: [
-      validateSchema(createSchema),
-    ],
-    update: [
-      iff(isProvider('external'),
-        disallow()
-      )
-    ],
+    create: [validateSchema(createSchema)],
+    update: [iff(isProvider('external'), disallow())],
     patch: disallow(),
-    remove: disallow(),
+    remove: disallow()
   },
   after: {
-    all: [
-      iff(isProvider('external'),
-        discard('token')
-      )
-    ],
-    create: [
-      generateToken,
-      sendOnboardingEmail
-    ]
+    all: [iff(isProvider('external'), discard('token'))],
+    create: [generateToken, sendOnboardingEmail]
   }
 }
 
@@ -71,9 +58,9 @@ async function generateToken (context) {
   const nextUser = merge(result, { token })
   await usersService.update(
     userId,
-    nextUser,
-// (mw) not sure why this fails but hey
-//    { transaction: context.params.transaction }
+    nextUser
+    // (mw) not sure why this fails but hey
+    //    { transaction: context.params.transaction }
   )
   return context
 }

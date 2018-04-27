@@ -12,34 +12,26 @@ module.exports = {
 
     return (state = initialData, { type, userId, error }) => {
       if (type === 'AUTHENTICATION_STARTED') {
-        return merge(
-          state,
-          { isAuthenticating: true }
-        )
-      } else if (type == 'AUTHENTICATION_FINISHED') {
-        return merge(
-          state,
-          {
-            userId,
-            error: null,
-            isAuthenticating: false
-          }
-        )
-      } else if (type == 'AUTHENTICATION_FAILED') {
-        return merge(
-          state,
-          {
-            error,
-            isAuthenticating: false
-          }
-        )
+        return merge(state, { isAuthenticating: true })
+      } else if (type === 'AUTHENTICATION_FINISHED') {
+        return merge(state, {
+          userId,
+          error: null,
+          isAuthenticating: false
+        })
+      } else if (type === 'AUTHENTICATION_FAILED') {
+        return merge(state, {
+          error,
+          isAuthenticating: false
+        })
       }
       return state
     }
   },
-  doAuthenticate: (options) => ({ dispatch, client }) => {
+  doAuthenticate: options => ({ dispatch, client }) => {
     dispatch({ type: 'AUTHENTICATION_STARTED' })
-    return client.authenticate(options)
+    return client
+      .authenticate(options)
       .then(({ accessToken }) => {
         return client.passport.verifyJWT(accessToken)
       })
@@ -71,10 +63,7 @@ module.exports = {
   selectAuthenticatedUserId: state => state.authentication.userId,
   selectIsAuthenticating: state => state.authentication.isAuthenticating,
   selectAuthenticationError: state => state.authentication.error,
-  selectIsAuthenticated: createSelector(
-    'selectAuthenticatedUserId',
-    Boolean
-  ),
+  selectIsAuthenticated: createSelector('selectAuthenticatedUserId', Boolean),
   reactShouldAutoAuthenticate: createSelector(
     'selectAuthenticatedUserId',
     'selectIsAuthenticating',

@@ -1,18 +1,18 @@
 const steps = [
   {
-    label:  'start',
+    label: 'start',
     Component: require('../components/step-start')
   },
   {
-    label:  'setup',
+    label: 'setup',
     Component: () => null
   },
   {
-    label:  'pay',
+    label: 'pay',
     Component: () => null
   },
   {
-    label:  'enjoy',
+    label: 'enjoy',
     Component: () => null
   }
 ]

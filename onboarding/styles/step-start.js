@@ -9,8 +9,7 @@ module.exports = {
     flexDirection: 'column',
     alignItems: 'center'
   }),
-  submitButton: ({ theme }) => ({
-  }),
+  submitButton: ({ theme }) => ({}),
   completion: ({ theme }) => ({
     padding: theme.space[3],
     textAlign: 'center'
