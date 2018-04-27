@@ -69,7 +69,7 @@ async function generateToken (context) {
   const { accessToken: token } = authResult
 
   const nextUser = merge(result, { token })
-  await usersService.update(
+  return usersService.update(
     userId,
     nextUser,
 // (mw) not sure why this fails but hey
@@ -80,5 +80,5 @@ async function generateToken (context) {
 async function sendOnboardingEmail (context) {
   const onboardingEmailService = context.app.service('onboarding/email')
   const { result: { id: userId } } = context
-  await onboardingEmailService.create({ userId })
+  return onboardingEmailService.create({ userId })
 }
