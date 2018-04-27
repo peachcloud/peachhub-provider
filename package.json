@@ -18,12 +18,11 @@
     "dist:push": "gh-pages -d dist",
     "dist": "npm-run-all -s dist:build dist:copy dist:push",
     "lint": "standard",
-    "start": "npm-run-all -p start:*",
+    "start": "npm run prod",
     "start:api": "node ./api/bin",
     "start:asset": "node ./asset/bin",
     "start:worker": "node ./worker/bin",
     "sql": "knex --knexfile sql/config.js --cwd .",
-    "start": "npm run prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "browserify": {
@@ -88,7 +87,7 @@
     "react-final-form": "^3.3.1",
     "react-hyperscript": "^3.2.0",
     "recompose": "^0.26.0",
-    "redux-bundler": "^21.0.3",
+    "redux-bundler": "github:buttcloud/redux-bundler#v21.1.1",
     "redux-bundler-react": "^1.0.0",
     "redux-form-material-ui": "^5.0.0-beta.2",
     "redux-form-with-ajv": "^0.4.0",
