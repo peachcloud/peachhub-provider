@@ -15,6 +15,9 @@
     "port": 1025,
     "ignoreTLS": true
   },
+  "log": {
+    "level": "debug"
+  },
   "sql": {
     "connection": {
       "host": "localhost",

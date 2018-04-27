@@ -14,7 +14,7 @@ async function startWorker () {
   const redisUrl = getRedisUrl(config)
   const logger = config.logger
     ? config.logger.child({ name: 'worker' })
-    : Logger({ name: 'worker', /* level: 'debug' */ })
+    : Logger({ name: 'worker', level: config.log.level })
   const connection = {
     redis: new Redis(redisUrl)
   }

@@ -17,6 +17,9 @@
       "pass": "MAILER_AUTH_PASS"
     }
   },
+  "log": {
+    "level": "LOG_LEVEL"
+  },
   "redis": {
     "url": "REDIS_URL"
   },
