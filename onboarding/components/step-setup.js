@@ -9,28 +9,56 @@ const validate = require('redux-form-with-ajv').default
 const Typography = require('material-ui/Typography').default
 const Button = require('material-ui/Button').default
 
-const schema = require('../../users/schemas/createUser')
-const styles = require('../styles/step-start')
+const schema = require('../../bots/schemas/createBot')
+const styles = require('../styles/step-setup')
 
 module.exports = compose(
   connectStyles(styles),
   partial(connectStore, [
-    'doSubmitOnboardingSetup', //TODO
-    'selectOnboardingUserBot'  //TODO
+    'doSubmitOnboardingSetup',
+    'selectOnboardingUser',
+    'selectOnboardingBot'
   ]),
-)(OnboardingStepStart)
+)(OnboardingStepSetup)
 
-function OnboardingStepStart (props) {
+function OnboardingStepSetup (props) {
   const {
     styles,
-    onboardingUser: user
+    onboardingUser: user,
+    onboardingBot: bot
   } = props
 
   return (
     h('div', {
       className: styles.container
     }, [
-      h(OnboardingStepSetupForm, props)
+      bot
+        ? h(OnboardingStepSetupCompletion, props)
+        : h(OnboardingStepSetupForm, props)
+    ])
+  )
+}
+
+function OnboardingStepSetupCompletion (props) {
+  const {
+    styles,
+    onboardingBot: bot
+  } = props
+
+  return (
+    h(Typography, {
+      variant: 'body2',
+      paragraph: true
+    }, [
+      'Bot ',
+      bot.name,
+      ' is being started. Click to continue',
+      h(Button, {
+        variant: 'raised',
+        color: 'primary'
+      }, [
+        'Continue'
+      ])
     ])
   )
 }
@@ -39,12 +67,17 @@ function OnboardingStepSetupForm (props) {
   const {
     styles,
     handleSubmit,
+    onboardingUser: user,
     doSubmitOnboardingSetup: doSubmit
   } = props
 
   return (
     h(Form, {
       onSubmit: doSubmit,
+      initialValues: {
+        userId: user.id,
+        name: 'foo'
+      },
       validate: validate(schema),
       render: ({ handleSubmit }) => (
         h('form', {
@@ -58,10 +91,14 @@ function OnboardingStepSetupForm (props) {
               name: 'name',
               component: TextField,
               placeholder: 'Ash',
-              label: 'Name',
               helperText: 'What should we call your pub?',
               fullWidth: true,
               margin: 'normal'
+            }),
+            h(Field, {
+              name: 'userId',
+              component: 'input',
+              type: 'hidden',
             }),
             h(Button, {
               className: styles.submitButton,

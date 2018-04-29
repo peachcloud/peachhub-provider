@@ -3,13 +3,8 @@
   "description": "A ButtCloud Pub",
   "type": "object",
   "properties": {
-    "botId": {
-      "type": "string",
-      "maxLength": 255
-    },
     "userId": {
-      "type": "string",
-      "format": "email",
+      "type": "integer",
       "maxLength": 255
     },
     "name": {
@@ -18,7 +13,6 @@
     }
   },
   "required": [
-    "botId",
     "userId",
     "name"
   ]

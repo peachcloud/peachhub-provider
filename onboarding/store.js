@@ -4,6 +4,7 @@ const { merge, partialRight, path, pipe, prop, __ } = require('ramda')
 
 const steps = require('./data/steps')
 const ONBOARDING_USER = 'buttcloud_onboardingUser'
+const ONBOARDING_BOT = 'buttcloud_onboardingBot'
 
 module.exports = {
   name: 'onboarding',
@@ -47,11 +48,22 @@ module.exports = {
           }
         )
       }
+      else if (type === 'ONBOARDING_BOT') {
+        const { bot } = action
+        return merge(
+          state,
+          { bot }
+        )
+      }
       return state
     }
   },
+  //do = application logic
+  //select = pass items from store into components
+  //path is partially applied
   selectOnboardingSnackbar: path(['onboarding', 'snackbar']),
   selectOnboardingStoredUser: path(['onboarding', 'user']),
+  selectOnboardingBot: path(['onboarding', 'bot']),
   selectOnboardingUser: createSelector(
     'selectOnboardingStoredUser',
     'selectAuthenticatedUser',
@@ -146,16 +158,17 @@ module.exports = {
   doClearOnboardingSnackbar: () => ({ dispatch }) => {
     dispatch({ type: 'ONBOARDING_SNACKBAR_CLEAR' })
   },
-  doSubmitOnboardingSetup: data => ({ dispatch, client }) => {
+  doSubmitOnboardingSetup: (data) => ({ dispatch, client }) => {
     return client.service('bots')
       .create(data)
       .then(bot => {
-        const botString = JSON.stringify(bot)
-
         dispatch({
           type: 'ONBOARDING_BOT',
           bot
         })
+
+        const botString = JSON.stringify(bot)
+        window.localStorage.setItem(ONBOARDING_BOT, botString)
 
         const { name } = bot
         dispatch({
@@ -166,9 +179,28 @@ module.exports = {
           }
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+
+        // TODO these currently don't show up in `redux-form-material-ui` components
+        // because in `final-form` this shows up as a field-level `submitError` not `error`
+        if (err.errors && Object.keys(err.errors).length > 0) {
+          return err.errors
+        }
+
+        // TODO use `final-form` form-level `submitError` and remove snackbar for errors
+        // https://codesandbox.io/s/9y9om95lyp
+
+        dispatch({
+          type: 'ONBOARDING_SNACKBAR_SET',
+          snackbar: {
+            message: err.message,
+            error: true
+          }
+        })
+
+        return { [FORM_ERROR]: err.message }
+      })
   },
-  selectOnboardingUserBot: () => {}, //TODO
   reactShouldUpdateOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
@@ -208,10 +240,17 @@ module.exports = {
   ),
   init: function (store) {
     const userString = window.localStorage.getItem(ONBOARDING_USER)
+    const botString = window.localStorage.getItem(ONBOARDING_BOT)
     if (userString != null) {
       try {
         const user = JSON.parse(userString)
         store.dispatch({ type: 'ONBOARDING_USER', user })
+      } catch (err) {}
+    }
+    if (botString != null) {
+      try {
+        const bot = JSON.parse(botString)
+        store.dispatch({ type: 'ONBOARDING_BOT', bot })
       } catch (err) {}
     }
   }

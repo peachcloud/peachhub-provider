@@ -2,11 +2,10 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('bots', function (table) {
     table.increments()
-    table.string('name')
-    table.string('userId')
-      .references('email')
+    table.string('name').unique()
+    table.integer('userId')
+      .references('id')
       .inTable('users')
-    table.string('botId').unique()
   })
 }
 

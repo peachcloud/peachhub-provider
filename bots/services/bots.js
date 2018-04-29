@@ -21,16 +21,17 @@ function BotsService (server) {
 
 const hooks = {
   before: {
-    all: [
-      auth.hooks.authenticate('jwt'),
-      restrictToOwner({
-        idField: 'userId',
-        ownerField: 'userId'
-      })
-    ],
+//    all: [
+//      auth.hooks.authenticate('jwt'),
+//      restrictToOwner({
+//        idField: 'id',
+//        ownerField: 'userId'
+//      })
+//    ],
     find : [
       () => {}
     ],
+    //TODO is this all I need to do to make a new entry to the db?
     create: [
       validateSchema(createSchema)
     ],
