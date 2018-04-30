@@ -4,9 +4,7 @@ const { transaction } = hooks
 
 module.exports = {
   before: {
-    all: [
-      transaction.start()
-    ],
+    all: [transaction.start()],
     find: [],
     get: [],
     create: [],
@@ -16,9 +14,7 @@ module.exports = {
   },
 
   after: {
-    all: [
-      transaction.end()
-    ],
+    all: [transaction.end()],
     find: [],
     get: [],
     create: [],
@@ -28,9 +24,7 @@ module.exports = {
   },
 
   error: {
-    all: [
-      transaction.rollback()
-    ],
+    all: [transaction.rollback()],
     find: [],
     get: [],
     create: [],

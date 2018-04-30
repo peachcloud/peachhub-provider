@@ -10,17 +10,12 @@ function Configify (filename, options) {
     '@feathersjs/configuration': function () {
       const getConfig = Config()
       const config = getConfig() || {}
-      const browserConfig = keys.reduce(
-        (sofar, key) => {
-          sofar[key] = config[key]
-          return sofar
-        },
-        {}
-      )
+      const browserConfig = keys.reduce((sofar, key) => {
+        sofar[key] = config[key]
+        return sofar
+      }, {})
       return stringToStream(
-        'function () { return ' +
-          JSON.stringify(browserConfig) +
-        ' }'
+        'function () { return ' + JSON.stringify(browserConfig) + ' }'
       )
     }
   })

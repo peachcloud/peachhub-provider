@@ -7,33 +7,37 @@ const Typography = require('material-ui/Typography').default
 
 const styles = require('../styles/navigation')
 
-module.exports = compose(
-  connectStyles(styles)
-)(Navigation)
+module.exports = compose(connectStyles(styles))(Navigation)
 
 function Navigation (props) {
-  const {
-    styles
-  } = props
-  return (
-    h('div', {
+  const { styles } = props
+  return h(
+    'div',
+    {
       className: styles.container
-    }, [
-      h(AppBar, {
-        position: 'static',
-        color: 'primary'
-      }, [
-        h(Toolbar, [
-          h(Typography, {
-            className: styles.title,
-            variant: 'title',
-            component: 'a',
-            href: '/'
-          }, [
-            'ButtCloud'
+    },
+    [
+      h(
+        AppBar,
+        {
+          position: 'static',
+          color: 'primary'
+        },
+        [
+          h(Toolbar, [
+            h(
+              Typography,
+              {
+                className: styles.title,
+                variant: 'title',
+                component: 'a',
+                href: '/'
+              },
+              ['ButtCloud']
+            )
           ])
-        ])
-      ])
-    ])
+        ]
+      )
+    ]
   )
 }

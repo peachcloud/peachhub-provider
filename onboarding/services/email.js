@@ -22,21 +22,19 @@ const Service = () => ({
     const { userId } = options
 
     const user = await users.get(userId)
-    const setupUrl = `${assetUrl}/onboarding/1?token=${encodeURIComponent(user.token)}`
+    const setupUrl = `${assetUrl}/onboarding/1?token=${encodeURIComponent(
+      user.token
+    )}`
 
-    await this.workerQueue.enqueue(
-      'mailer',
-      'sendMail',
-      [
-        {
-          from: from,
-          to: `"${user.name}" <${user.email}>`,
-          subject: 'Welcome to ButtCloud!',
-          text: createText({ setupUrl, user }),
-          html: createHtml({ assetUrl, log, setupUrl, theme, user })
-        }
-      ]
-    )
+    await this.workerQueue.enqueue('mailer', 'sendMail', [
+      {
+        from: from,
+        to: `"${user.name}" <${user.email}>`,
+        subject: 'Welcome to ButtCloud!',
+        text: createText({ setupUrl, user }),
+        html: createHtml({ assetUrl, log, setupUrl, theme, user })
+      }
+    ])
   }
 })
 
@@ -109,10 +107,8 @@ Welcome to ButtCloud!
   `
 }
 
-
 const hooks = {
   before: {
     create: []
   }
 }
-

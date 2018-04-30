@@ -5,7 +5,7 @@ const createClient = require('./client')
 
 const appBundle = {
   name: 'app',
-  getExtraArgs: (store) => {
+  getExtraArgs: store => {
     return {
       config,
       client: createClient(config)

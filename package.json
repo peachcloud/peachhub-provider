@@ -17,13 +17,15 @@
     "dist:build": "npm run bundle:build",
     "dist:push": "gh-pages -d dist",
     "dist": "npm-run-all -s dist:build dist:copy dist:push",
-    "lint": "standard",
+    "precommit": "lint-staged",
     "start": "npm run prod",
     "start:api": "node ./api/bin",
     "start:asset": "node ./asset/bin",
     "start:worker": "node ./worker/bin",
-    "sql": "knex --knexfile sql/config.js --cwd .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "style:lint": "standard",
+    "style:format": "prettier-standard '**/*.js' '**/*.md'",
+    "style": "npm-run-all -s style:format style:lint",
+    "test": "npm-run-all -s style:lint"
   },
   "browserify": {
     "transform": [
@@ -36,6 +38,24 @@
           ]
         }
       ]
+    ]
+  },
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "prettier-standard",
+        "standard",
+        "git add"
+      ],
+      "*.md": [
+        "prettier-standard",
+        "git add"
+      ]
+    }
+  },
+  "standard": {
+    "globals": [
+      "localStorage"
     ]
   },
   "repository": {
@@ -99,9 +119,12 @@
   },
   "devDependencies": {
     "budo": "^11.2.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.5",
     "maildev": "^1.0.0-rc3",
     "node-dev": "^3.1.3",
     "pino-colada": "^1.4.4",
+    "prettier-standard": "^8.0.1",
     "standard": "^11.0.1"
   }
 }

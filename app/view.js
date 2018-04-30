@@ -1,6 +1,4 @@
 const { createRenderer: createStyleRenderer } = require('fela')
-const { Provider: StyleProvider, ThemeProvider: StyleThemeProvider } = require('react-fela')
-const { createMuiTheme, MuiThemeProvider } = require('material-ui/styles')
 const { render } = require('react-dom')
 const h = require('react-hyperscript')
 
@@ -30,14 +28,16 @@ function view ({ config, store }) {
   document.body.appendChild(domRoot)
 
   render(
-    h(Provider, {
-      config,
-      store,
-      styleRenderer,
-      theme: defaultTheme
-    }, [
-      h(App)
-    ]),
+    h(
+      Provider,
+      {
+        config,
+        store,
+        styleRenderer,
+        theme: defaultTheme
+      },
+      [h(App)]
+    ),
     domRoot
   )
 }

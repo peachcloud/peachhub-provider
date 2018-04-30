@@ -28,6 +28,5 @@ function ApiServer () {
     server.configure(Channels)
 
     server.asyncConfigure(Worker)
-
   })
 }

@@ -6,10 +6,6 @@ const feathers = require('@feathersjs/feathers')
 const helmet = require('helmet')
 const Logger = require('express-pino-logger')
 const serverSummary = require('server-summary')
-const { join } = require('path')
-const { merge } = require('ramda')
-
-const asyncConfigure = require('./asyncConfigure')
 
 const config = require('../config')
 
@@ -24,7 +20,7 @@ function Server (name, cb) {
     : Logger({ name, level: config.log.level })
   server.use(logger)
   const log = logger.logger
-  server.set('logger', log) 
+  server.set('logger', log)
 
   server.config = config
   server.configure(configuration())
@@ -45,7 +41,7 @@ function Server (name, cb) {
   }
 
   async function start (cb) {
-    const { port, url } = config[name]
+    const { port } = config[name]
 
     await server.ready
 
