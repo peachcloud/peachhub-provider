@@ -10,6 +10,7 @@
     "secret": "AUTHENTICATION_SECRET"
   },
   "mailer": {
+    "from": "MAILER_FROM",
     "host": "MAILER_HOST",
     "port": "MAILER_PORT",
     "auth": {
