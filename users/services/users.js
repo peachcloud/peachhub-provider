@@ -75,10 +75,12 @@ async function generateToken (context) {
 // (mw) not sure why this fails but hey
 //    { transaction: context.params.transaction }
   )
+  return context
 }
 
 async function sendOnboardingEmail (context) {
   const onboardingEmailService = context.app.service('onboarding/email')
   const { result: { id: userId } } = context
   await onboardingEmailService.create({ userId })
+  return context
 }

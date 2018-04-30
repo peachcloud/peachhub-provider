@@ -1,6 +1,7 @@
 exports.seed = function (knex, Promise) {
   const devUser = {
-    name: 'alice'
+    name: 'ButtCloud',
+    email: 'buttcloudorg@gmail.com'
   }
   return knex('users').insert(devUser)
 }
