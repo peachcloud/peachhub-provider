@@ -17,48 +17,20 @@ module.exports = compose(
   partial(connectStore, [
     'doSubmitOnboardingSetup',
     'selectOnboardingUser',
-    'selectOnboardingBot'
+    'selectOnboardingStepIndex'
   ]),
 )(OnboardingStepSetup)
 
 function OnboardingStepSetup (props) {
   const {
-    styles,
-    onboardingUser: user,
-    onboardingBot: bot
+    styles
   } = props
 
   return (
     h('div', {
       className: styles.container
     }, [
-      bot
-        ? h(OnboardingStepSetupCompletion, props)
-        : h(OnboardingStepSetupForm, props)
-    ])
-  )
-}
-
-function OnboardingStepSetupCompletion (props) {
-  const {
-    styles,
-    onboardingBot: bot
-  } = props
-
-  return (
-    h(Typography, {
-      variant: 'body2',
-      paragraph: true
-    }, [
-      'Bot ',
-      bot.name,
-      ' is being started. Click to continue',
-      h(Button, {
-        variant: 'raised',
-        color: 'primary'
-      }, [
-        'Continue'
-      ])
+      h(OnboardingStepSetupForm, props)
     ])
   )
 }
@@ -75,8 +47,8 @@ function OnboardingStepSetupForm (props) {
     h(Form, {
       onSubmit: doSubmit,
       initialValues: {
-        userId: user.id,
-        name: 'foo'
+        user: user.id,
+        userId: user.id
       },
       validate: validate(schema),
       render: ({ handleSubmit }) => (
@@ -94,9 +66,14 @@ function OnboardingStepSetupForm (props) {
               helperText: 'What should we call your pub?',
               fullWidth: true,
               margin: 'normal'
-            }),
+            }), //TODO need 'about' field http://scuttlebot.io/docs/config/create-a-pub.html
             h(Field, {
               name: 'userId',
+              component: 'input',
+              type: 'hidden',
+            }),
+            h(Field, {
+              name: 'user',
               component: 'input',
               type: 'hidden',
             }),

@@ -159,53 +159,60 @@ module.exports = {
     dispatch({ type: 'ONBOARDING_SNACKBAR_CLEAR' })
   },
   doSubmitOnboardingSetup: (data) => ({ dispatch, client }) => {
+    console.log('DATA', data)
     return client.service('bots')
-      .create(data)
-      .then(bot => {
-        dispatch({
-          type: 'ONBOARDING_BOT',
-          bot
-        })
+      .find(data)
+      .then(bots => console.log(bots))
+      .catch(err => console.log(err))
 
-        const botString = JSON.stringify(bot)
-        window.localStorage.setItem(ONBOARDING_BOT, botString)
-
-        const { name } = bot
-        dispatch({
-          type: 'ONBOARDING_SNACKBAR_SET',
-          snackbar: {
-            message: `Bot ${ name } is being created`,
-            error: false
-          }
-        })
-      })
-      .catch(err => {
-
-        // TODO these currently don't show up in `redux-form-material-ui` components
-        // because in `final-form` this shows up as a field-level `submitError` not `error`
-        if (err.errors && Object.keys(err.errors).length > 0) {
-          return err.errors
-        }
-
-        // TODO use `final-form` form-level `submitError` and remove snackbar for errors
-        // https://codesandbox.io/s/9y9om95lyp
-
-        dispatch({
-          type: 'ONBOARDING_SNACKBAR_SET',
-          snackbar: {
-            message: err.message,
-            error: true
-          }
-        })
-
-        return { [FORM_ERROR]: err.message }
-      })
+//    return client.service('bots')
+//      .create(data)
+//      .then(bot => {
+//        dispatch({
+//          type: 'ONBOARDING_BOT',
+//          bot
+//        })
+//
+//        const botString = JSON.stringify(bot)
+//        window.localStorage.setItem(ONBOARDING_BOT, botString)
+//
+//        const { name } = bot
+//        dispatch({
+//          type: 'ONBOARDING_SNACKBAR_SET',
+//          snackbar: {
+//            message: `Bot ${ name } is being created`,
+//            error: false
+//          }
+//        })
+//      })
+//      .catch(err => {
+//
+//        // TODO these currently don't show up in `redux-form-material-ui` components
+//        // because in `final-form` this shows up as a field-level `submitError` not `error`
+//        if (err.errors && Object.keys(err.errors).length > 0) {
+//          return err.errors
+//        }
+//
+//        // TODO use `final-form` form-level `submitError` and remove snackbar for errors
+//        // https://codesandbox.io/s/9y9om95lyp
+//
+//        dispatch({
+//          type: 'ONBOARDING_SNACKBAR_SET',
+//          snackbar: {
+//            message: err.message,
+//            error: true
+//          }
+//        })
+//
+//        return { [FORM_ERROR]: err.message }
+//      })
   },
   reactShouldUpdateOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
     'selectIsAuthenticated',
-    (isOnboarding, stepIndex, isAuthenticated) => {
+    'selectOnboardingBot',
+    (isOnboarding, stepIndex, isAuthenticated, onboardingBot) => {
       if (!isOnboarding) return false
 
       // if out-of-bounds, reset to step 0
@@ -225,6 +232,17 @@ module.exports = {
         return {
           actionCreator: 'doUpdateUrl',
           args: ['/onboarding/1']
+        }
+      }
+
+      if (
+        onboardingBot &&
+        // TODO isAuthenticated &&
+        stepIndex === 1
+      ) {
+        return {
+          actionCreator: 'doUpdateUrl',
+          args: ['/onboarding/2']
         }
       }
     }
