@@ -11,12 +11,8 @@ function Authentication (server) {
 
   server.service('authentication').hooks({
     before: {
-      create: [
-        authentication.hooks.authenticate(config.strategies)
-      ],
-      remove: [
-        authentication.hooks.authenticate('jwt')
-      ]
+      create: [authentication.hooks.authenticate(config.strategies)],
+      remove: [authentication.hooks.authenticate('jwt')]
     }
   })
 }

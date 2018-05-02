@@ -12,6 +12,9 @@
   "mailer": {
     "from": "hello@buttcloud.org"
   },
+  "log": {
+    "level": "info"
+  },
   "sql": {
     "migrations": {
       "directory": "sql/migrations"

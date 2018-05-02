@@ -11,42 +11,49 @@ const styles = require('../styles/landing')
 
 module.exports = compose(
   connectStyles(styles),
-  partial(connectStore, [
-    'doUpdateUrl'
-  ])
+  partial(connectStore, ['doUpdateUrl'])
 )(Landing)
 
 function Landing (props) {
-  const {
-    styles,
-    updateUrl
-  } = props
+  const { styles } = props
 
-  return (
-    h('div', {
+  return h(
+    'div',
+    {
       className: styles.container
-    }, [
-      h(Paper, {
-        className: styles.header
-      }, [
-        h(Typography, {
-          variant: 'display4',
-          color: 'default',
-          align: 'center'
-        }, [
-          h('i', { className: 'em-svg em-peach' }),
-          h('i', { className: 'em-svg em-cloud' })
-        ]),
-        h(Button, {
-          variant: 'raised',
-          color: 'primary',
-          size: 'large',
-          className: styles.startButton,
-          href: '/onboarding/0'
-        }, [
-          'Start A Pub!'
-        ])
-      ])
-    ])
+    },
+    [
+      h(
+        Paper,
+        {
+          className: styles.header
+        },
+        [
+          h(
+            Typography,
+            {
+              variant: 'display4',
+              color: 'default',
+              align: 'center'
+            },
+            [
+              h('i', { className: 'em-svg em-peach' }),
+              h('i', { className: 'em-svg em-cloud' })
+            ]
+          ),
+          h(
+            Button,
+            {
+              variant: 'raised',
+              color: 'primary',
+              size: 'large',
+              className: styles.startButton,
+              href: '/onboarding/0'
+            },
+            ['Start A Pub!']
+          )
+        ]
+      )
+    ]
   )
 }

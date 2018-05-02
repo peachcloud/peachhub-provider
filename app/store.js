@@ -5,7 +5,7 @@ const createClient = require('./client')
 
 const appBundle = {
   name: 'app',
-  getExtraArgs: (store) => { // passed into do* functions { dispatch, client }
+  getExtraArgs: store => {
     return {
       config,
       client: createClient(config)

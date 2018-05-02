@@ -22,21 +22,19 @@ const Service = () => ({
     const { userId } = options
 
     const user = await users.get(userId)
-    const setupUrl = `${assetUrl}/onboarding/1?token=${encodeURIComponent(user.token)}`
+    const setupUrl = `${assetUrl}/onboarding/1?token=${encodeURIComponent(
+      user.token
+    )}`
 
-    await this.workerQueue.enqueue(
-      'mailer',
-      'sendMail',
-      [
-        {
-          from: from,
-          to: `"${user.name}" <${user.email}>`,
-          subject: 'Welcome to ButtCloud!',
-          text: createText({ setupUrl, user }),
-          html: createHtml({ assetUrl, log, setupUrl, theme, user })
-        }
-      ]
-    )
+    await this.workerQueue.enqueue('mailer', 'sendMail', [
+      {
+        from: from,
+        to: `"${user.name}" <${user.email}>`,
+        subject: 'Welcome to ButtCloud!',
+        text: createText({ setupUrl, user }),
+        html: createHtml({ assetUrl, log, setupUrl, theme, user })
+      }
+    ])
   }
 })
 
@@ -58,7 +56,6 @@ function createHtml ({ assetUrl, log, setupUrl, theme, user }) {
     <mj-hero
       mode="fixed-height"
       height="469px"
-      width="100%"
       vertical-align="middle"
       background-width="600px"
       background-height="469px"
@@ -92,8 +89,10 @@ function createHtml ({ assetUrl, log, setupUrl, theme, user }) {
   </mj-body>
 </mjml>
   `)
-  if (output.errors) {
+
+  if (output.errors.length > 0) {
     output.errors.forEach(err => log.error(err))
+    throw new Error('Failed to render onboarding email!')
   }
 
   return output.html
@@ -108,10 +107,8 @@ Welcome to ButtCloud!
   `
 }
 
-
 const hooks = {
   before: {
     create: []
   }
 }
-

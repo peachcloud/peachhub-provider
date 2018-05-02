@@ -1,6 +1,6 @@
 const { createSelector } = require('redux-bundler')
 const { FORM_ERROR } = require('final-form')
-const { merge, partialRight, path, pipe, prop, __ } = require('ramda')
+const { merge, path, pipe, prop, __ } = require('ramda')
 
 const steps = require('./data/steps')
 const ONBOARDING_USER = 'buttcloud_onboardingUser'
@@ -21,32 +21,15 @@ module.exports = {
       const { type } = action
       if (type === 'ONBOARDING_USER') {
         const { user } = action
-        return merge(
-          state,
-          { user }
-        )
-      }
-      else if (type === 'ONBOARDING_SNACKBAR_SET') {
-        return merge(
-          state,
-          {
-            snackbar: merge(
-              state.snackbar,
-              action.snackbar
-            )
-          }
-        )
-      }
-      else if (type === 'ONBOARDING_SNACKBAR_CLEAR') {
-        return merge(
-          state,
-          {
-            snackbar: merge(
-              state.snackbar,
-              initialState.snackbar
-            )
-          }
-        )
+        return merge(state, { user })
+      } else if (type === 'ONBOARDING_SNACKBAR_SET') {
+        return merge(state, {
+          snackbar: merge(state.snackbar, action.snackbar)
+        })
+      } else if (type === 'ONBOARDING_SNACKBAR_CLEAR') {
+        return merge(state, {
+          snackbar: merge(state.snackbar, initialState.snackbar)
+        })
       }
       else if (type === 'ONBOARDING_BOT') {
         const { bot } = action
@@ -71,9 +54,8 @@ module.exports = {
       return authenticatedUser || storedUser
     }
   ),
-  selectIsOnboarding: createSelector(
-    'selectRouteParams',
-    (routeParams) => routeParams.hasOwnProperty('onboardingStepIndex')
+  selectIsOnboarding: createSelector('selectRouteParams', routeParams =>
+    routeParams.hasOwnProperty('onboardingStepIndex')
   ),
   selectOnboardingStepIndex: createSelector(
     'selectRouteParams',
@@ -81,7 +63,7 @@ module.exports = {
   ),
   selectOnboardingSteps: createSelector(
     'selectOnboardingStepIndex',
-    (stepIndex) => {
+    stepIndex => {
       return steps.map((step, index) => {
         const isComplete = stepIndex > index
         return merge(step, {
@@ -98,8 +80,9 @@ module.exports = {
     window.localStorage.removeItem(ONBOARDING_USER)
     dispatch({ type: 'ONBOARDING_USER', user: null })
   },
-  doResendOnboardingEmail: (userId) => ({ dispatch, client }) => {
-    return client.service('onboarding/email')
+  doResendOnboardingEmail: userId => ({ dispatch, client }) => {
+    return client
+      .service('onboarding/email')
       .create({ userId })
       .catch(err => {
         dispatch({
@@ -112,8 +95,9 @@ module.exports = {
         throw err
       })
   },
-  doSubmitOnboardingStart: (data) => ({ dispatch, client }) => {
-    return client.service('users')
+  doSubmitOnboardingStart: data => ({ dispatch, client }) => {
+    return client
+      .service('users')
       .create(data)
       .then(user => {
         const userString = JSON.stringify(user)
@@ -134,7 +118,6 @@ module.exports = {
         })
       })
       .catch(err => {
-
         // TODO these currently don't show up in `redux-form-material-ui` components
         // because in `final-form` this shows up as a field-level `submitError` not `error`
         if (err.errors && Object.keys(err.errors).length > 0) {
@@ -216,11 +199,7 @@ module.exports = {
       if (!isOnboarding) return false
 
       // if out-of-bounds, reset to step 0
-      if (
-        stepIndex == null ||
-        stepIndex < 0 ||
-        stepIndex >= steps.length
-      ) {
+      if (stepIndex == null || stepIndex < 0 || stepIndex >= steps.length) {
         return {
           actionCreator: 'doUpdateUrl',
           args: ['/onboarding/0']

@@ -1,10 +1,25 @@
 {
+  "api": {
+    "port": "PORT",
+    "url": "API_URL"
+  },
+  "asset": {
+    "url": "ASSET_URL"
+  },
+  "authentication": {
+    "secret": "AUTHENTICATION_SECRET"
+  },
   "mailer": {
-    "service": "MAILER_SERVICE",
+    "from": "MAILER_FROM",
+    "host": "MAILER_HOST",
+    "port": "MAILER_PORT",
     "auth": {
       "user": "MAILER_AUTH_USER",
       "pass": "MAILER_AUTH_PASS"
     }
+  },
+  "log": {
+    "level": "LOG_LEVEL"
   },
   "redis": {
     "url": "REDIS_URL"
