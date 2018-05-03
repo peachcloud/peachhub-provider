@@ -18,6 +18,7 @@
     "dist:push": "gh-pages -d dist",
     "dist": "npm-run-all -s dist:build dist:copy dist:push",
     "precommit": "lint-staged",
+    "sql": "knex --knexfile sql/config.js --cwd .",
     "start": "npm run prod",
     "start:api": "node ./api/bin",
     "start:asset": "node ./asset/bin",

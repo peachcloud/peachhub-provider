@@ -40,9 +40,9 @@ module.exports = {
       return state
     }
   },
-  doFindBots: (userId) => ({ dispatch, client }) => {
+  doFindBots: (data) => ({ dispatch, client }) => {
     dispatch({ type 'FIND_BOT_STARTED', userId })
-    client.service('bot').find(userID)
+    client.service('bot').find(data)
       .then(bots => {
         dispatch({ type: 'FIND_BOT_FINISHED', bots })
       })

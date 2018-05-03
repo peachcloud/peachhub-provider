@@ -1,7 +1,7 @@
 const KnexService = require('feathers-knex')
 const auth = require('feathers-authentication')
 const { merge } = require('ramda')
-const { restrictToOwner } = require('feathers-authentication-hooks')
+const { restrictToOwner, queryWithCurrentUser } = require('feathers-authentication-hooks')
 const { disallow, discard, iff, isProvider } = require('feathers-hooks-common')
 const validateSchema = require('../../util/validateSchema')
 
@@ -21,17 +21,12 @@ function BotsService (server) {
 
 const hooks = {
   before: {
-//    all: [
-//      auth.hooks.authenticate('jwt'),
-//      restrictToOwner({
-//        idField: 'id',
-//        ownerField: 'userId'
-//      })
-//    ],
-    find : [
-      () => {}
+    all: [
+      auth.hooks.authenticate('jwt')
     ],
-    //TODO is this all I need to do to make a new entry to the db?
+    find : [
+      restrictToOwner({ idField: 'id', ownerField: 'userId' })
+    ],
     create: [
       validateSchema(createSchema)
     ],

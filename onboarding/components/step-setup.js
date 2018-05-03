@@ -16,6 +16,7 @@ module.exports = compose(
   connectStyles(styles),
   partial(connectStore, [
     'doSubmitOnboardingSetup',
+    'doFindBots',
     'selectOnboardingUser',
     'selectOnboardingStepIndex'
   ]),
@@ -47,7 +48,6 @@ function OnboardingStepSetupForm (props) {
     h(Form, {
       onSubmit: doSubmit,
       initialValues: {
-        user: user.id,
         userId: user.id
       },
       validate: validate(schema),
@@ -66,14 +66,9 @@ function OnboardingStepSetupForm (props) {
               helperText: 'What should we call your pub?',
               fullWidth: true,
               margin: 'normal'
-            }), //TODO need 'about' field http://scuttlebot.io/docs/config/create-a-pub.html
-            h(Field, {
-              name: 'userId',
-              component: 'input',
-              type: 'hidden',
             }),
             h(Field, {
-              name: 'user',
+              name: 'userId',
               component: 'input',
               type: 'hidden',
             }),
