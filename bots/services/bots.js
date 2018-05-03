@@ -1,8 +1,7 @@
 const KnexService = require('feathers-knex')
 const auth = require('feathers-authentication')
-const { merge } = require('ramda')
-const { restrictToOwner, queryWithCurrentUser } = require('feathers-authentication-hooks')
-const { disallow, discard, iff, isProvider } = require('feathers-hooks-common')
+const { restrictToOwner } = require('feathers-authentication-hooks')
+const { disallow } = require('feathers-hooks-common')
 const validateSchema = require('../../util/validateSchema')
 
 const createSchema = require('../schemas/createBot')
@@ -21,27 +20,13 @@ function BotsService (server) {
 
 const hooks = {
   before: {
-    all: [
-      auth.hooks.authenticate('jwt')
-    ],
-    find : [
-      restrictToOwner({ idField: 'id', ownerField: 'userId' })
-    ],
-    create: [
-      validateSchema(createSchema)
-    ],
-    get: [
-      disallow()
-    ],
-    update: [
-      disallow()
-    ],
-    patch: [
-      disallow()
-    ],
-    remove: [
-      disallow()
-    ]
+    all: [auth.hooks.authenticate('jwt')],
+    find: [restrictToOwner({ idField: 'id', ownerField: 'userId' })],
+    create: [validateSchema(createSchema)],
+    get: [disallow()],
+    update: [disallow()],
+    patch: [disallow()],
+    remove: [disallow()]
   },
   after: {}
 }

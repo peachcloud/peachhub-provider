@@ -191,7 +191,6 @@ heroku login
 heroku run npm run sql migrate:latest --app=buttcloud-demo
 ```
 
-
 ### Postgres DEV setup
 
 use a [`~/.pgpass`](https://www.postgresql.org/docs/current/static/libpq-pgpass.html) file to automate your passwords!

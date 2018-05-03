@@ -30,13 +30,9 @@ module.exports = {
         return merge(state, {
           snackbar: merge(state.snackbar, initialState.snackbar)
         })
-      }
-      else if (type === 'ONBOARDING_BOT') {
+      } else if (type === 'ONBOARDING_BOT') {
         const { bot } = action
-        return merge(
-          state,
-          { bot }
-        )
+        return merge(state, { bot })
       }
       return state
     }
@@ -138,8 +134,9 @@ module.exports = {
   doClearOnboardingSnackbar: () => ({ dispatch }) => {
     dispatch({ type: 'ONBOARDING_SNACKBAR_CLEAR' })
   },
-  doSubmitOnboardingSetup: (data) => ({ dispatch, client }) => {
-    return client.service('bots')
+  doSubmitOnboardingSetup: data => ({ dispatch, client }) => {
+    return client
+      .service('bots')
       .create(data)
       .then(bot => {
         dispatch({
@@ -154,13 +151,12 @@ module.exports = {
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',
           snackbar: {
-            message: `Bot ${ name } is being created`,
+            message: `Bot ${name} is being created`,
             error: false
           }
         })
       })
       .catch(err => {
-
         // TODO these currently don't show up in `redux-form-material-ui` components
         // because in `final-form` this shows up as a field-level `submitError` not `error`
         if (err.errors && Object.keys(err.errors).length > 0) {
@@ -205,11 +201,7 @@ module.exports = {
         }
       }
 
-      if (
-        onboardingBot &&
-        isAuthenticated &&
-        stepIndex === 1
-      ) {
+      if (onboardingBot && isAuthenticated && stepIndex === 1) {
         return {
           actionCreator: 'doUpdateUrl',
           args: ['/onboarding/2']

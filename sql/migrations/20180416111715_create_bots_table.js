@@ -1,9 +1,9 @@
-
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('bots', function (table) {
     table.increments()
     table.string('name').unique()
-    table.integer('userId')
+    table
+      .integer('userId')
       .references('id')
       .inTable('users')
   })
