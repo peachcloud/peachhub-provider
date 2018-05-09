@@ -1,6 +1,6 @@
 const services = [
   require('./users/services/users'),
-  require('./bots/services/bots'),
+  require('./pubs/services/pubs'),
   require('./onboarding/services/email')
 ]
 

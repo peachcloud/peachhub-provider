@@ -1,7 +1,7 @@
 exports.up = function (knex, Promise) {
-  return knex.schema.createTable('bots', function (table) {
+  return knex.schema.createTable('pubs', function (table) {
     table.increments()
-    table.string('name').unique()
+    table.string('name')
     table
       .integer('userId')
       .references('id')
@@ -10,5 +10,5 @@ exports.up = function (knex, Promise) {
 }
 
 exports.down = function (knex, Promise) {
-  return knex.schema.dropTableIfExists('bots')
+  return knex.schema.dropTableIfExists('pubs')
 }

@@ -98,7 +98,7 @@ async function createWorker ({ connection, logger }) {
   })
 
   await worker.connect()
-  await worker.workerCleanup() // optional: cleanup any previous improperly shutdown workers on this host
+  // await worker.workerCleanup() // optional: cleanup any previous improperly shutdown workers on this host
   worker.start()
 
   return worker

@@ -4,7 +4,7 @@ const { merge, path, pipe, prop, __ } = require('ramda')
 
 const steps = require('./data/steps')
 const ONBOARDING_USER = 'buttcloud_onboardingUser'
-const ONBOARDING_BOT = 'buttcloud_onboardingBot'
+const ONBOARDING_PUB = 'buttcloud_onboardingPub'
 
 module.exports = {
   name: 'onboarding',
@@ -30,16 +30,16 @@ module.exports = {
         return merge(state, {
           snackbar: merge(state.snackbar, initialState.snackbar)
         })
-      } else if (type === 'ONBOARDING_BOT') {
-        const { bot } = action
-        return merge(state, { bot })
+      } else if (type === 'ONBOARDING_PUB') {
+        const { pub } = action
+        return merge(state, { pub })
       }
       return state
     }
   },
   selectOnboardingSnackbar: path(['onboarding', 'snackbar']),
   selectOnboardingStoredUser: path(['onboarding', 'user']),
-  selectOnboardingBot: path(['onboarding', 'bot']),
+  selectOnboardingPub: path(['onboarding', 'pub']),
   selectOnboardingUser: createSelector(
     'selectOnboardingStoredUser',
     'selectAuthenticatedUser',
@@ -136,22 +136,22 @@ module.exports = {
   },
   doSubmitOnboardingSetup: data => ({ dispatch, client }) => {
     return client
-      .service('bots')
+      .service('pubs')
       .create(data)
-      .then(bot => {
+      .then(pub => {
         dispatch({
-          type: 'ONBOARDING_BOT',
-          bot
+          type: 'ONBOARDING_PUB',
+          pub
         })
 
-        const botString = JSON.stringify(bot)
-        window.localStorage.setItem(ONBOARDING_BOT, botString)
+        const pubString = JSON.stringify(pub)
+        window.localStorage.setItem(ONBOARDING_PUB, pubString)
 
-        const { name } = bot
+        const { name } = pub
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',
           snackbar: {
-            message: `Bot ${name} is being created`,
+            message: `pub ${name} is being created`,
             error: false
           }
         })
@@ -181,8 +181,8 @@ module.exports = {
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
     'selectIsAuthenticated',
-    'selectOnboardingBot',
-    (isOnboarding, stepIndex, isAuthenticated, onboardingBot) => {
+    'selectOnboardingPub',
+    (isOnboarding, stepIndex, isAuthenticated, onboardingPub) => {
       if (!isOnboarding) return false
 
       // if out-of-bounds, reset to step 0
@@ -201,7 +201,7 @@ module.exports = {
         }
       }
 
-      if (onboardingBot && isAuthenticated && stepIndex === 1) {
+      if (onboardingPub && isAuthenticated && stepIndex === 1) {
         return {
           actionCreator: 'doUpdateUrl',
           args: ['/onboarding/2']
@@ -220,17 +220,17 @@ module.exports = {
   ),
   init: function (store) {
     const userString = window.localStorage.getItem(ONBOARDING_USER)
-    const botString = window.localStorage.getItem(ONBOARDING_BOT)
+    const pubString = window.localStorage.getItem(ONBOARDING_PUB)
     if (userString != null) {
       try {
         const user = JSON.parse(userString)
         store.dispatch({ type: 'ONBOARDING_USER', user })
       } catch (err) {}
     }
-    if (botString != null) {
+    if (pubString != null) {
       try {
-        const bot = JSON.parse(botString)
-        store.dispatch({ type: 'ONBOARDING_BOT', bot })
+        const pub = JSON.parse(pubString)
+        store.dispatch({ type: 'ONBOARDING_PUB', pub })
       } catch (err) {}
     }
   }

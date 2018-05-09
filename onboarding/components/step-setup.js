@@ -8,14 +8,14 @@ const { TextField } = require('redux-form-material-ui')
 const validate = require('redux-form-with-ajv').default
 const Button = require('material-ui/Button').default
 
-const schema = require('../../bots/schemas/createBot')
+const schema = require('../../pubs/schemas/createPub')
 const styles = require('../styles/step-setup')
 
 module.exports = compose(
   connectStyles(styles),
   partial(connectStore, [
     'doSubmitOnboardingSetup',
-    'doFindBots',
+    'doFindPubs',
     'selectOnboardingUser',
     'selectOnboardingStepIndex'
   ])
@@ -34,17 +34,10 @@ function OnboardingStepSetup (props) {
 }
 
 function OnboardingStepSetupForm (props) {
-  const {
-    styles,
-    onboardingUser: user,
-    doSubmitOnboardingSetup: doSubmit
-  } = props
+  const { styles, doSubmitOnboardingSetup: doSubmit } = props
 
   return h(Form, {
     onSubmit: doSubmit,
-    initialValues: {
-      userId: user.id
-    },
     validate: validate(schema),
     render: ({ handleSubmit }) =>
       h(
@@ -67,11 +60,6 @@ function OnboardingStepSetupForm (props) {
                 helperText: 'What should we call your pub?',
                 fullWidth: true,
                 margin: 'normal'
-              }),
-              h(Field, {
-                name: 'userId',
-                component: 'input',
-                type: 'hidden'
               }),
               h(
                 Button,

@@ -1,19 +1,14 @@
 {
-  "title": "Bot",
+  "title": "Pub",
   "description": "A ButtCloud Pub",
   "type": "object",
   "properties": {
-    "userId": {
-      "type": "integer",
-      "maxLength": 255
-    },
     "name": {
       "type": "string",
       "maxLength": 255
     }
   },
   "required": [
-    "userId",
     "name"
   ]
 }
