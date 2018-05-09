@@ -6,10 +6,26 @@ Scenario('User can navigate to start onboarding from home page', I => {
   I.seeInCurrentUrl('/onboarding/0')
 })
 
-Scenario('User can complete onboarding start', async I => {
-  I.amOnPage('/onboarding/0')
+Scenario('Name is required', I => {
   I.fillField('form input[name="name"]', 'Alice')
+  I.click('form input[name="email"]')
+  I.clearInputField('form input[name="name"]', 'Alice')
+  I.click('form input[name="email"]')
+  I.see("should have required property 'name'")
+  I.fillField('form input[name="name"]', 'Alice')
+})
+
+Scenario('Email is required and validated', I => {
+  I.fillField('form input[name=email]', 'not an email')
+  I.click('form input[name="name"]')
+  I.see('should match format "email"')
+  I.clearInputField('form input[name=email]', 'not an email')
+  I.click('form input[name="name"]')
+  I.see("should have required property 'email'")
   I.fillField('form input[name="email"]', 'alice@example.com')
+})
+
+Scenario('User can complete onboarding start', async I => {
   I.click('form [type="submit"]')
   I.waitForText('Hey Alice', 3)
   I.waitForEmail(0)
