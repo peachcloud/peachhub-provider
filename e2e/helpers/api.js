@@ -19,11 +19,10 @@ class ApiHelper extends Helper {
   }
 
   _finishTest () {
-    console.log('finish api')
     return this.stop()
   }
 
-  execApi (service, method, args) {
+  callApi (service, method, ...args) {
     return this.server.service(service)[method](...args)
   }
 }

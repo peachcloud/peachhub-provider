@@ -31,7 +31,6 @@ class MailerHelper extends Helper {
   }
 
   _finishTest () {
-    console.log('finish mailer')
     return new Promise((resolve, reject) => {
       this.maildev.close(err => {
         if (err) reject(err)
@@ -40,54 +39,68 @@ class MailerHelper extends Helper {
     })
   }
 
-  async seeEmail (options, timeout = 10000) {
-    const nextEmail = this.emails.pop()
-    if (isNil(nextEmail)) {
+  _before () {
+    this.emails = []
+  }
+
+  async waitForEmail (index, timeout = 10000) {
+    const email = this.emails[index]
+
+    if (isNil(email)) {
       const waitTime = 100
       const nextTimeout = timeout - waitTime
       if (nextTimeout < 0) {
         throw new Error('New email never arrived')
       }
       await delay(waitTime)
-      await this.seeEmail(options, timeout - waitTime)
-      return
+      await this.waitForEmail(index, timeout - waitTime)
     }
+  }
 
+  async seeEmail (index, options) {
+    const email = this.emails[index]
     const { to, from, subject, text, html } = options
+
     if (to) {
       assert(
-        isEqual(nextEmail.to, to),
+        isEqual(email.to, to),
         `Expected to ${JSON.stringify(
           to
-        )} did not match next email to ${JSON.stringify(to)}`
+        )} did not match next email to ${JSON.stringify(email.to)}`
       )
     }
     if (from) {
       assert(
-        isEqual(nextEmail.from, from),
+        isEqual(email.from, from),
         `Expected from ${JSON.stringify(
           from
-        )} did not match next email from ${JSON.stringify(from)}`
+        )} did not match next email from ${JSON.stringify(email.from)}`
       )
     }
     if (subject) {
       assert(
-        includes(nextEmail.subject, subject),
-        `Expected subject ${subject} did not match next email subject ${subject}`
+        includes(email.subject, subject),
+        `Expected subject ${subject} did not match next email subject ${
+          email.subject
+        }`
       )
     }
     if (text) {
       assert(
-        includes(nextEmail.text, text),
-        `Expected text ${text} did not match next email text ${text}`
+        includes(email.text, text),
+        `Expected text ${text} did not match next email text ${email.text}`
       )
     }
     if (html) {
       assert(
-        includes(nextEmail.html, html),
-        `Expected html ${html} did not match next email html ${html}`
+        includes(email.html, html),
+        `Expected html ${html} did not match next email html ${email.html}`
       )
     }
+  }
+
+  async grabTextFromEmail (index, matcher) {
+    return this.emails[index].text.match(matcher)
   }
 }
 

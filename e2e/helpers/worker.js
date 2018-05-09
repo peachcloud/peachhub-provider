@@ -18,7 +18,6 @@ class WorkerHelper extends Helper {
   }
 
   _finishTest () {
-    console.log('finish worker')
     return this.stop()
   }
 }

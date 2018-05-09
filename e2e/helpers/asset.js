@@ -19,7 +19,6 @@ class AssetHelper extends Helper {
   }
 
   _finishTest () {
-    console.log('finish asset')
     return this.stop()
   }
 }

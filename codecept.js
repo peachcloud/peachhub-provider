@@ -44,6 +44,7 @@ module.exports.config = {
   },
   bootstrap: false,
   teardown: () => {
+    // (mw) fixes servers not closing
     process.exit()
   },
   mocha: {},
