@@ -1,4 +1,5 @@
 const findPort = require('find-port-sync')
+const isCi = process.env.CI
 
 const apiPort = findPort()
 const assetPort = findPort()
@@ -27,7 +28,7 @@ module.exports = {
     connection: {
       host: 'localhost',
       user: 'postgres',
-      password: 'password',
+      password: isCi ? null : 'password',
       database: 'butthub_provider_test'
     }
   },
