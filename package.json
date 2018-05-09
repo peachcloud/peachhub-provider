@@ -29,7 +29,8 @@
     "test:burnthesql": "dropdb butthub_provider_test -h localhost -U postgres; createdb butthub_provider_test -h localhost -U postgres; NODE_ENV=test npm run sql migrate:latest; NODE_ENV=test npm run sql seed:run",
     "test:codecept": "NODE_ENV=test codeceptjs run -c ./codecept.js",
     "test:e2e": "npm-run-all -s test:burnthesql test:codecept",
-    "test:style": "npm-run-all -s style:lint"
+    "test:style": "npm-run-all -s style:lint",
+    "test": "npm-run-all -s test:style test:e2e"
   },
   "browserify": {
     "transform": [
