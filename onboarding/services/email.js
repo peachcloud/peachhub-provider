@@ -11,6 +11,7 @@ function OnboardingEmailService (server) {
 const Service = () => ({
   setup (server) {
     this.log = server.get('logger')
+    this.enqueue = server.enqueue
     this.workerQueue = server.get('workerQueue')
     this.assetUrl = server.get('asset').url
     this.theme = server.get('theme')
@@ -26,7 +27,7 @@ const Service = () => ({
       user.token
     )}`
 
-    await this.workerQueue.enqueue('mailer', 'sendMail', [
+    await this.enqueue('sendMail', [
       {
         from: from,
         to: `"${user.name}" <${user.email}>`,

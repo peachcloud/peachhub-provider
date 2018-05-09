@@ -34,26 +34,39 @@ function Server (name, cb) {
   // fancy error page
   server.use(express.errorHandler())
 
+  var httpServer
+
   return {
+    server,
     start,
     stop,
     log
   }
 
-  async function start (cb) {
+  async function start () {
     const { port } = config[name]
 
     await server.ready
 
-    var httpServer = server.listen(port, () => {
-      if (httpServer == null) return
-      serverSummary(httpServer, info => {
-        log.info(info, `${name} server listening`)
-      })()
+    return new Promise((resolve, reject) => {
+      httpServer = server.listen(port, err => {
+        if (httpServer == null) return
+        if (err) return reject(err)
+        serverSummary(httpServer, info => {
+          log.info(info, `${name} server listening`)
+          resolve()
+        })()
+      })
     })
   }
 
-  async function stop (cb) {
-    server.close(cb)
+  async function stop () {
+    return new Promise((resolve, reject) => {
+      console.log('closing server', name)
+      httpServer.close(err => {
+        if (err) reject(err)
+        else resolve()
+      })
+    })
   }
 }

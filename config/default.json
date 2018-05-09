@@ -1,4 +1,7 @@
 {
+  "asset": {
+    "directory": "asset/data"
+  },
   "authentication": {
     "secret": "secret",
     "strategies": [
@@ -10,7 +13,7 @@
     }
   },
   "mailer": {
-    "from": "hello@buttcloud.org"
+    "from": "ButtCloud <hello@buttcloud.org>"
   },
   "log": {
     "level": "info"
@@ -23,5 +26,8 @@
       "directory": "sql/seeds"
     },
     "client": "postgresql"
+  },
+  "worker": {
+    "queue": "butthub-provider"
   }
 }

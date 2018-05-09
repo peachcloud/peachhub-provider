@@ -13,5 +13,7 @@ async function Worker (server) {
   const queueConnection = { redis: new Redis(redisUrl) }
   const queue = new Resque.Queue({ connection: queueConnection })
   await queue.connect()
-  server.set('workerQueue', queue)
+  server.enqueue = function enqueue (jobName, args) {
+    return queue.enqueue(config.worker.queue, jobName, args)
+  }
 }
