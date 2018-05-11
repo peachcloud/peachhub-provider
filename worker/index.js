@@ -24,8 +24,7 @@ function Worker () {
   return {
     start,
     stop,
-    log,
-    redis
+    log
   }
 
   function start () {

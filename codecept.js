@@ -41,6 +41,12 @@ module.exports.config = {
       config.asset
     )
   },
+  bootstrap: () => {
+    process.on('unhandledRejection', (reason, p) => {
+      console.error(reason)
+      process.exit(1)
+    })
+  },
   include: {
     I: './e2e/steps.js'
   },
