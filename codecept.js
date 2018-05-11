@@ -7,6 +7,14 @@ module.exports.config = {
   timeout: 10000,
   output: './e2e/output',
   helpers: {
+    Nightmare: {
+      gotoTimeout: 120000,
+      disableScreenshots: 'true',
+      browser: 'chrome',
+      url: browserUrl,
+      show: true,
+      restart: false
+    },
     worker: Object.assign(
       {
         require: './e2e/helpers/worker'
@@ -32,15 +40,7 @@ module.exports.config = {
         require: './e2e/helpers/asset'
       },
       config.asset
-    ),
-    Nightmare: {
-      gotoTimeout: 120000,
-      disableScreenshots: 'true',
-      browser: 'chrome',
-      url: browserUrl,
-      show: true,
-      restart: false
-    }
+    )
   },
   include: {
     I: './e2e/steps.js'
