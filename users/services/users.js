@@ -56,7 +56,7 @@ async function generateToken (context) {
   const { accessToken: token } = authResult
 
   const nextUser = merge(result, { token })
-  await usersService.update(
+  context.result = await usersService.update(
     userId,
     nextUser
     // (mw) not sure why this fails but hey

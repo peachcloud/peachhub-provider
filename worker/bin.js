@@ -1,3 +1,9 @@
-const start = require('./')
+const Worker = require('./')
 
-start()
+const worker = Worker()
+
+process.on('SIGTERM', worker.stop)
+process.on('SIGINT', worker.stop)
+process.on('unhandledRejection', (reason, p) => worker.log.fatal(reason))
+
+worker.start()
