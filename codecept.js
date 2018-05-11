@@ -12,8 +12,7 @@ module.exports.config = {
       disableScreenshots: 'true',
       browser: 'chrome',
       url: browserUrl,
-      show: true,
-      restart: false
+      show: true
     },
     worker: Object.assign(
       {
