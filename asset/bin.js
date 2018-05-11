@@ -1,7 +1,9 @@
 const AssetServer = require('./')
 
-const { start, log } = AssetServer()
+const assetServer = AssetServer()
 
-process.on('unhandledRejection', (reason, p) => log.fatal(reason))
+process.on('SIGTERM', assetServer.stop)
+process.on('SIGINT', assetServer.stop)
+process.on('unhandledRejection', (reason, p) => assetServer.log.fatal(reason))
 
-start()
+assetServer.start()

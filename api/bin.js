@@ -1,7 +1,9 @@
 const ApiServer = require('./')
 
-const { start, log } = ApiServer()
+const apiServer = ApiServer()
 
-process.on('unhandledRejection', (reason, p) => log.fatal(reason))
+process.on('SIGTERM', apiServer.stop)
+process.on('SIGINT', apiServer.stop)
+process.on('unhandledRejection', (reason, p) => apiServer.log.fatal(reason))
 
-start()
+apiServer.start()

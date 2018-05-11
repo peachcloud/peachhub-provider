@@ -191,7 +191,6 @@ heroku login
 heroku run npm run sql migrate:latest --app=buttcloud-demo
 ```
 
-
 ### Postgres DEV setup
 
 use a [`~/.pgpass`](https://www.postgresql.org/docs/current/static/libpq-pgpass.html) file to automate your passwords!
@@ -236,6 +235,22 @@ https://pixabay.com/en/love-heart-set-seamless-pattern-3102033/
 ### emoji
 
 * https://afeld.github.io/emoji-css/
+
+### increase file watch
+
+if you get an `ENOSPC` error related to watching files in development:
+
+```shell
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
+[source](https://stackoverflow.com/questions/16748737/grunt-watch-error-waiting-fatal-error-watch-enospc/17437601#17437601)
+
+### css selector chart
+
+https://www.red-gate.com/simple-talk/wp-content/uploads/imported/1269-Locators_table_1_0_2.pdf?file=4937
+
+> The css selectors that look like <element>:contains("text") dont work, i googled it, apparently that kind of selector is a jquery thing :shrug:
 
 ## license
 

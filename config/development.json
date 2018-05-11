@@ -9,7 +9,8 @@
   "asset": {
     "directory": "asset/data",
     "port": "8002",
-    "url": "http://localhost:8002"
+    "url": "http://localhost:8002",
+    "reload": true
   },
   "mailer": {
     "port": 1025,
@@ -23,7 +24,7 @@
       "host": "localhost",
       "user": "postgres",
       "password": "password",
-      "database": "buttcloud_provider_development"
+      "database": "butthub_provider_development"
     }
   }
 }
