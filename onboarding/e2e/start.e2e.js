@@ -55,3 +55,17 @@ Scenario('User can complete onboarding start', async I => {
   I.amOnPage(onboardingLink)
   I.see('ButtCloud') // TODO change to next page text
 })
+
+Scenario(
+  'User can refresh start page after completion to continue next step',
+  I => {
+    I.amOnPage('/onboarding/0')
+    I.fillField('form input[name="name"]', 'Alex')
+    I.fillField('form input[name="email"]', 'alex@example.com')
+    I.click('form [type="submit"]')
+    I.waitForText('Hey Alex', 3)
+    I.waitForEmail(0)
+    I.refreshPage()
+    I.see('Hey Alex')
+  }
+)
