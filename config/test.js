@@ -14,7 +14,8 @@ module.exports = {
   },
   asset: {
     port: assetPort,
-    url: `http://localhost:${assetPort}`
+    url: `http://localhost:${assetPort}`,
+    reload: false
   },
   mailer: {
     port: findPort(),

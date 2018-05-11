@@ -47,7 +47,7 @@ class MailerHelper extends Helper {
     const email = this.emails[index]
 
     if (isNil(email)) {
-      const waitTime = 100
+      const waitTime = 200
       const nextTimeout = timeout - waitTime
       if (nextTimeout < 0) {
         throw new Error('New email never arrived')

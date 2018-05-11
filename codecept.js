@@ -7,6 +7,20 @@ module.exports.config = {
   timeout: 10000,
   output: './e2e/output',
   helpers: {
+    worker: Object.assign(
+      {
+        require: './e2e/helpers/worker'
+      },
+      config.worker
+    ),
+    mailer: Object.assign(
+      {
+        require: './e2e/helpers/mailer'
+      },
+      config.mailer
+    ),
+    // api must close after worker
+    // (mw) why?
     api: Object.assign(
       {
         require: './e2e/helpers/api'
@@ -19,33 +33,17 @@ module.exports.config = {
       },
       config.asset
     ),
-    mailer: Object.assign(
-      {
-        require: './e2e/helpers/mailer'
-      },
-      config.mailer
-    ),
     Nightmare: {
+      gotoTimeout: 120000,
       disableScreenshots: 'true',
       browser: 'chrome',
       url: browserUrl,
       show: true,
       restart: false
-    },
-    worker: Object.assign(
-      {
-        require: './e2e/helpers/worker'
-      },
-      config.worker
-    )
+    }
   },
   include: {
     I: './e2e/steps.js'
-  },
-  bootstrap: false,
-  teardown: () => {
-    // (mw) fixes servers not closing
-    process.exit()
   },
   mocha: {},
   name: 'butthub-provider'

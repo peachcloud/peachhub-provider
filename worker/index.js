@@ -16,26 +16,30 @@ function Worker () {
     ? config.log.child({ name: 'worker' })
     : Log({ name: 'worker', level: config.log.level })
   const queue = config.worker.queue
+  const redis = new Redis(redisUrl)
+  const connection = { redis }
 
-  var connection, worker, scheduler
+  var worker, scheduler
 
   return {
     start,
     stop,
-    log
+    log,
+    redis
   }
 
-  async function start () {
-    connection = {
-      redis: new Redis(redisUrl)
-    }
-    worker = await createWorker({ connection, log, queue })
-    scheduler = await createScheduler({ connection, log })
+  function start () {
+    return Promise.all([
+      createWorker({ connection, log, queue }),
+      createScheduler({ connection, log })
+    ]).then(([_worker, _scheduler]) => {
+      worker = _worker
+      scheduler = _scheduler
+    })
   }
 
-  async function stop () {
-    await scheduler.end()
-    await worker.end()
+  function stop () {
+    return Promise.all([scheduler.end(), worker.end()]).then(() => redis.quit())
   }
 }
 
@@ -69,8 +73,8 @@ async function createScheduler ({ connection, log }) {
   return scheduler
 }
 
-async function createWorker ({ connection, log, queue }) {
-  const queues = [queue]
+async function createWorker ({ connection, log, queue: queueName }) {
+  const queues = [queueName]
   const jobs = Jobs(config)
   const worker = new Resque.Worker({ connection, queues }, jobs)
 

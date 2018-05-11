@@ -11,7 +11,9 @@ const config = require('../config')
 
 module.exports = Server
 
-function Server (name, cb) {
+function Server (name, handlers) {
+  const { onCreate = noop, onStart = noop, onStop = noop } = handlers
+
   const server = express(feathers())
   server.configure(require('../util/asyncConfigure'))
 
@@ -29,7 +31,7 @@ function Server (name, cb) {
   server.use(helmet())
   server.use(compress())
 
-  cb(server, config)
+  onCreate(server, config)
 
   // fancy error page
   server.use(express.errorHandler())
@@ -48,25 +50,38 @@ function Server (name, cb) {
 
     await server.ready
 
+    await Promise.resolve(onStart(server, config))
+
     return new Promise((resolve, reject) => {
-      httpServer = server.listen(port, err => {
-        if (httpServer == null) return
-        if (err) return reject(err)
+      httpServer = server.listen(port)
+      httpServer.once('error', reject)
+      httpServer.once(
+        'listening',
         serverSummary(httpServer, info => {
+          httpServer.removeListener('error', reject)
           log.info(info, `${name} server listening`)
           resolve()
-        })()
-      })
+        })
+      )
     })
   }
 
   async function stop () {
+    await Promise.resolve(onStop(server, config))
+
     return new Promise((resolve, reject) => {
-      console.log('closing server', name)
-      httpServer.close(err => {
-        if (err) reject(err)
-        else resolve()
+      if (httpServer == null) return resolve()
+      log.info(`${name} server closing`)
+      httpServer.once('error', reject)
+      httpServer.once('close', () => {
+        log.info(`${name} server closed`)
+        httpServer.removeListener('error', reject)
+        httpServer = null
+        resolve()
       })
+      httpServer.close()
     })
   }
 }
+
+function noop () {}
