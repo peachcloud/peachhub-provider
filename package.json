@@ -30,7 +30,8 @@
     "test:codecept": "NODE_ENV=test codeceptjs run -c ./codecept.js",
     "test:e2e": "npm-run-all -s test:burnthesql test:codecept",
     "test:style": "npm-run-all -s style:lint",
-    "test": "npm-run-all -s test:style test:e2e"
+    "test:dist": "npm run dist:build",
+    "test": "npm-run-all -s test:style test:e2e test:dist"
   },
   "browserify": {
     "transform": [
