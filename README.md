@@ -1,6 +1,10 @@
 # buttcloud-provider
 
+[![travis](https://travis-ci.org/buttcloud/butthub-provider.svg?branch=master)](https://travis-ci.org/buttcloud/butthub-provider)
+
 a hosted Scuttlebutt pub-as-a-service provider
+
+[**DEMO**](https://demo.buttcloud.org) :eyes:
 
 ## table of contents
 
