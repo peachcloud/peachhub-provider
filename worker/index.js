@@ -24,8 +24,7 @@ function Worker () {
   return {
     start,
     stop,
-    log,
-    redis
+    log
   }
 
   function start () {
@@ -110,7 +109,6 @@ async function createWorker ({ connection, log, queue: queueName }) {
   })
 
   await worker.connect()
-  await worker.workerCleanup() // optional: cleanup any previous improperly shutdown workers on this host
   worker.start()
 
   return worker
