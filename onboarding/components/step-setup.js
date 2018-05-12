@@ -56,7 +56,7 @@ function OnboardingStepSetupForm (props) {
               h(Field, {
                 name: 'name',
                 component: TextField,
-                placeholder: 'Ash',
+                placeholder: 'PubbyMcPubFace',
                 helperText: 'What should we call your pub?',
                 fullWidth: true,
                 margin: 'normal'

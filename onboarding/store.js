@@ -4,7 +4,6 @@ const { merge, path, pipe, prop, __ } = require('ramda')
 
 const steps = require('./data/steps')
 const ONBOARDING_USER = 'buttcloud_onboardingUser'
-const ONBOARDING_PUB = 'buttcloud_onboardingPub'
 
 module.exports = {
   name: 'onboarding',
@@ -39,7 +38,7 @@ module.exports = {
   },
   selectOnboardingSnackbar: path(['onboarding', 'snackbar']),
   selectOnboardingStoredUser: path(['onboarding', 'user']),
-  selectOnboardingPub: path(['onboarding', 'pub']),
+  selectAuthenticatedUserPub: path(['onboarding', 'pub']),
   selectOnboardingUser: createSelector(
     'selectOnboardingStoredUser',
     'selectAuthenticatedUser',
@@ -144,14 +143,11 @@ module.exports = {
           pub
         })
 
-        const pubString = JSON.stringify(pub)
-        window.localStorage.setItem(ONBOARDING_PUB, pubString)
-
         const { name } = pub
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',
           snackbar: {
-            message: `pub ${name} is being created`,
+            message: `Pub ${name} is being prepared`,
             error: false
           }
         })
@@ -181,8 +177,8 @@ module.exports = {
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
     'selectIsAuthenticated',
-    'selectOnboardingPub',
-    (isOnboarding, stepIndex, isAuthenticated, onboardingPub) => {
+    'selectAuthenticatedUserPub',
+    (isOnboarding, stepIndex, isAuthenticated, authenticatedUserPub) => {
       if (!isOnboarding) return false
 
       // if out-of-bounds, reset to step 0
@@ -201,7 +197,7 @@ module.exports = {
         }
       }
 
-      if (onboardingPub && isAuthenticated && stepIndex === 1) {
+      if (authenticatedUserPub && isAuthenticated && stepIndex === 1) {
         return {
           actionCreator: 'doUpdateUrl',
           args: ['/onboarding/2']
@@ -220,17 +216,10 @@ module.exports = {
   ),
   init: function (store) {
     const userString = window.localStorage.getItem(ONBOARDING_USER)
-    const pubString = window.localStorage.getItem(ONBOARDING_PUB)
     if (userString != null) {
       try {
         const user = JSON.parse(userString)
         store.dispatch({ type: 'ONBOARDING_USER', user })
-      } catch (err) {}
-    }
-    if (pubString != null) {
-      try {
-        const pub = JSON.parse(pubString)
-        store.dispatch({ type: 'ONBOARDING_PUB', pub })
       } catch (err) {}
     }
   }
