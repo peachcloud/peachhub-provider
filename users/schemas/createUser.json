@@ -1,6 +1,6 @@
 {
   "title": "User",
-  "description": "A ButtCloud user",
+  "description": "A PeachCloud user",
   "type": "object",
   "properties": {
     "name": {

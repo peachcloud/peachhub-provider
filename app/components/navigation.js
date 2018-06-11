@@ -33,7 +33,7 @@ function Navigation (props) {
                 component: 'a',
                 href: '/'
               },
-              ['ButtCloud']
+              ['PeachCloud']
             )
           ])
         ]

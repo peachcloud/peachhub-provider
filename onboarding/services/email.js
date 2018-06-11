@@ -31,7 +31,7 @@ const Service = () => ({
       {
         from: from,
         to: `"${user.name}" <${user.email}>`,
-        subject: 'Welcome to ButtCloud!',
+        subject: 'Welcome to PeachCloud!',
         text: createText({ setupUrl, user }),
         html: createHtml({ assetUrl, log, setupUrl, theme, user })
       }
@@ -50,7 +50,7 @@ function createHtml ({ assetUrl, log, setupUrl, theme, user }) {
           font-size="40px"
           color="${theme.colors.primary.contrastText}"
         >
-          ButtCloud
+          PeachCloud
         </mj-text>
       </mj-column>
     </mj-section>
@@ -101,7 +101,7 @@ function createHtml ({ assetUrl, log, setupUrl, theme, user }) {
 
 function createText ({ user, setupUrl }) {
   return `
-Welcome to ButtCloud!
+Welcome to PeachCloud!
 =====================
 
 [SETUP YOUR PUB](${setupUrl})

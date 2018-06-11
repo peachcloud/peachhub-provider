@@ -8,12 +8,12 @@
       "jwt"
     ],
     "jwt": {
-      "audience": "http://butt.nz",
+      "audience": "http://peachcloud.org",
       "expiresIn": "100y"
     }
   },
   "mailer": {
-    "from": "ButtCloud <hello@buttcloud.org>"
+    "from": "PeachCloud <hello@peachcloud.org>"
   },
   "log": {
     "level": "info"
@@ -28,6 +28,6 @@
     "client": "postgresql"
   },
   "worker": {
-    "queue": "butthub-provider"
+    "queue": "peachhub-provider"
   }
 }

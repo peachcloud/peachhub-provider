@@ -41,8 +41,8 @@ Scenario('User can complete onboarding start', async I => {
     ],
     from: [
       {
-        name: 'ButtCloud',
-        address: 'hello@buttcloud.org'
+        name: 'PeachCloud',
+        address: 'hello@peachcloud.org'
       }
     ],
     text: '/onboarding/1?token=',
@@ -53,7 +53,7 @@ Scenario('User can complete onboarding start', async I => {
     /\/onboarding\/1\?token=[^()]+/
   )
   I.amOnPage(onboardingLink)
-  I.see('ButtCloud') // TODO change to next page text
+  I.see('PeachCloud') // TODO change to next page text
 })
 
 Scenario(

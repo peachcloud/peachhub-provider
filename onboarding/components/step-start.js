@@ -73,7 +73,7 @@ function OnboardingStepStartCompletion (props) {
           h('i', { className: 'em-svg em-email' }),
           ' to you at ',
           email,
-          ' with a link to continue onto ButtCloud.',
+          ' with a link to continue onto PeachCloud.',
           h('i', { className: 'em-svg em-peach' }),
           h('i', { className: 'em-svg em-cloud' })
         ]

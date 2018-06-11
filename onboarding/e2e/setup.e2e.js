@@ -8,5 +8,5 @@ Scenario('User can complete onboarding setup', async I => {
   console.log('user', user)
   I.waitForEmail(0) // to not confuse others tests
   I.amOnPage(`/onboarding/1?token=${user.token}`)
-  I.see('ButtCloud') // TODO change to setup page text
+  I.see('PeachCloud') // TODO change to setup page text
 })

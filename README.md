@@ -1,10 +1,10 @@
-# buttcloud-provider
+# peachhub-provider
 
-[![travis](https://travis-ci.org/buttcloud/butthub-provider.svg?branch=master)](https://travis-ci.org/buttcloud/butthub-provider)
+[![travis](https://travis-ci.org/peachcloud/peachhub-provider.svg?branch=master)](https://travis-ci.org/peachcloud/peachhub-provider)
 
 a hosted Scuttlebutt pub-as-a-service provider
 
-[**DEMO**](https://demo.buttcloud.org) :eyes:
+[**DEMO**](https://demo.peachcloud.org) :eyes:
 
 ## table of contents
 
@@ -27,12 +27,12 @@ before you start, please
 * [install `node@8` and `npm@5`](https://dogstack.js.org/guides/how-to-install-js.html)
 * [install `git-lfs`](https://git-lfs.github.com/)
 * [install and set up Postgres for your system](https://dogstack.js.org/guides/how-to-setup-sql-db.html)
-* create a database in Postgres named `buttcloud_provider_development` (see [Postgres DEV setup](#postgres-DEV-setup))
+* create a database in Postgres named `peachcloud_provider_development` (see [Postgres DEV setup](#postgres-DEV-setup))
 * install Redis
 
 ```shell
-git clone git@github.com:buttcloud/buttcloud-provider
-cd buttcloud-provider
+git clone git@github.com:peachcloud/peachhub-provider
+cd peachhub-provider
 npm install
 npm run sql migrate:latest
 npm run sql seed:run
@@ -192,7 +192,7 @@ npm run sql seed:run
 
 ```shell
 heroku login
-heroku run npm run sql migrate:latest --app=buttcloud-demo
+heroku run npm run sql migrate:latest --app=peachcloud-demo
 ```
 
 ### Postgres DEV setup
@@ -207,19 +207,19 @@ chmod 600 ~/.pgpass
 create your database with:
 
 ```shell
-createdb buttcloud_provider_development -h localhost -U postgres
+createdb peachhub_provider_development -h localhost -U postgres
 ```
 
 drop your database with:
 
 ```shell
-dropdb buttcloud_provider_development -h localhost -U postgres
+dropdb peachhub_provider_development -h localhost -U postgres
 ```
 
 connect to your database with:
 
 ```shell
-psql -h localhost -U postgres -d buttcloud_provider_development
+psql -h localhost -U postgres -d peachhub_provider_development
 ```
 
 ### background image

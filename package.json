@@ -1,10 +1,10 @@
 {
-  "name": "butthub-provider",
+  "name": "peachhub-provider",
   "version": "0.0.0",
   "description": "a hosted Scuttlebutt pub-as-a-service provider",
   "scripts": {
     "burnthemall": "rm -rf package-lock.json node_modules; npm i",
-    "burnthesql": "dropdb butthub_provider_development -h localhost -U postgres; createdb butthub_provider_development -h localhost -U postgres; npm run sql migrate:latest; npm run sql seed:run",
+    "burnthesql": "dropdb peachhub_provider_development -h localhost -U postgres; createdb peachhub_provider_development -h localhost -U postgres; npm run sql migrate:latest; npm run sql seed:run",
     "debug": "DEBUG=*,-babel npm run dev",
     "dev": "npm-run-all -p dev:*",
     "dev:api": "node-dev ./api/bin | pino-colada",
@@ -26,7 +26,7 @@
     "style:lint": "standard",
     "style:format": "prettier-standard '**/*.js' '**/*.md'",
     "style": "npm-run-all -s style:format style:lint",
-    "test:burnthesql": "dropdb butthub_provider_test -h localhost -U postgres; createdb butthub_provider_test -h localhost -U postgres; NODE_ENV=test npm run sql migrate:latest; NODE_ENV=test npm run sql seed:run",
+    "test:burnthesql": "dropdb peachhub_provider_test -h localhost -U postgres; createdb peachhub_provider_test -h localhost -U postgres; NODE_ENV=test npm run sql migrate:latest; NODE_ENV=test npm run sql seed:run",
     "test:codecept": "NODE_ENV=test codeceptjs run -c ./codecept.js",
     "test:e2e": "npm-run-all -s test:burnthesql test:codecept",
     "test:style": "npm-run-all -s style:lint",
@@ -69,14 +69,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/buttcloud/butthub-provider.git"
+    "url": "git+https://github.com/peachcloud/peachhub-provider.git"
   },
   "author": "Mikey <michael.williams@enspiral.com> (http://dinosaur.is)",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/buttcloud/butthub-provider/issues"
+    "url": "https://github.com/peachcloud/peachhub-provider/issues"
   },
-  "homepage": "https://github.com/buttcloud/butthub-provider#readme",
+  "homepage": "https://github.com/peachcloud/peachhub-provider#readme",
   "dependencies": {
     "@feathersjs/authentication": "^2.1.5",
     "@feathersjs/authentication-client": "^1.0.2",

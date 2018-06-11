@@ -1,6 +1,6 @@
 {
   "title": "Pub",
-  "description": "A ButtCloud Pub",
+  "description": "A PeachCloud Pub",
   "type": "object",
   "properties": {
     "name": {
