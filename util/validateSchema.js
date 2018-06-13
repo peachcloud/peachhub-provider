@@ -4,6 +4,8 @@ const Ajv = require('ajv')
 const get = require('lodash.get')
 const set = require('lodash.set')
 
+// TODO re-use this across client and server
+
 const ajv = new Ajv({
   allErrors: true
 })
