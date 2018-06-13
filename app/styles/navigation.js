@@ -4,6 +4,7 @@ module.exports = {
   }),
   title: ({ theme }) => ({
     color: theme.colors.primary.contrastText,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    flexGrow: 1
   })
 }
