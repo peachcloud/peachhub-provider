@@ -58,9 +58,7 @@ module.exports = {
       })
       .catch(error => {
         dispatch({ type: 'AUTHENTICATION_FAILED', error })
-        return client.logout().then(() => {
-          throw error
-        })
+        throw error
       })
   },
   doAuthenticateTokenAndSetUrl: ({ accessToken, url }) => ({ dispatch }) => {

@@ -38,6 +38,7 @@ function OnboardingStepStart (props) {
   )
 }
 
+// TODO allow editing later
 function OnboardingStepStartCompletion (props) {
   const {
     styles,

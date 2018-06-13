@@ -17,12 +17,7 @@ const styles = require('../styles/step-setup')
 
 module.exports = compose(
   connectStyles(styles),
-  partial(connectStore, [
-    'doSubmitOnboardingSetup',
-    'doFindPubs',
-    'selectOnboardingUser',
-    'selectOnboardingStepIndex'
-  ])
+  partial(connectStore, ['doSubmitOnboardingSetup'])
 )(OnboardingStepSetup)
 
 function OnboardingStepSetup (props) {
@@ -37,6 +32,7 @@ function OnboardingStepSetup (props) {
   )
 }
 
+// TODO allow editing later
 function OnboardingStepSetupForm (props) {
   const { styles, doSubmitOnboardingSetup: doSubmit } = props
 
