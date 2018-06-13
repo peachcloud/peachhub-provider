@@ -24,7 +24,7 @@
       "host": "localhost",
       "user": "postgres",
       "password": "password",
-      "database": "butthub_provider_development"
+      "database": "peachhub_provider_development"
     }
   }
 }

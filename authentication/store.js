@@ -7,6 +7,7 @@ module.exports = {
     const initialData = {
       userId: null,
       isAuthenticating: false,
+      isLoggingOut: false,
       error: null
     }
 
@@ -24,6 +25,19 @@ module.exports = {
           error,
           isAuthenticating: false
         })
+      } else if (type === 'LOGOUT_STARTED') {
+        return merge(state, { isLoggingOut: true })
+      } else if (type === 'LOGOUT_FINISHED') {
+        return merge(state, {
+          userId: null,
+          error: null,
+          isLoggingOut: false
+        })
+      } else if (type === 'LOGOUT_FAILED') {
+        return merge(state, {
+          error,
+          isLoggingOut: false
+        })
       }
       return state
     }
@@ -36,7 +50,6 @@ module.exports = {
         return client.passport.verifyJWT(accessToken)
       })
       .then(payload => {
-        console.log('payload', payload)
         const { userId } = payload
         if (userId == null) {
           throw new Error('doAuthenticate: missing userId from decoded jwt')
@@ -45,7 +58,9 @@ module.exports = {
       })
       .catch(error => {
         dispatch({ type: 'AUTHENTICATION_FAILED', error })
-        return client.logout()
+        return client.logout().then(() => {
+          throw error
+        })
       })
   },
   doAuthenticateTokenAndSetUrl: ({ accessToken, url }) => ({ dispatch }) => {
@@ -59,6 +74,18 @@ module.exports = {
       ]
     })
     dispatch({ actionCreator: 'doUpdateUrl', args: [url] })
+  },
+  doLogout: () => ({ dispatch, client }) => {
+    dispatch({ type: 'LOGOUT_STARTED' })
+    return client
+      .logout()
+      .then(() => {
+        dispatch({ type: 'LOGOUT_FINISHED' })
+      })
+      .catch(error => {
+        dispatch({ type: 'LOGOUT_FAILED', error })
+        throw error
+      })
   },
   selectAuthenticatedUserId: state => state.authentication.userId,
   selectIsAuthenticating: state => state.authentication.isAuthenticating,

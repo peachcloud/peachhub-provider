@@ -18,7 +18,7 @@ module.exports = {
 
     return (state = initialState, action) => {
       const { type } = action
-      if (type === 'ONBOARDING_USER') {
+      if (type === 'ONBOARDING_STORE_USER') {
         const { user } = action
         return merge(state, { user })
       } else if (type === 'ONBOARDING_SNACKBAR_SET') {
@@ -29,16 +29,13 @@ module.exports = {
         return merge(state, {
           snackbar: merge(state.snackbar, initialState.snackbar)
         })
-      } else if (type === 'ONBOARDING_PUB') {
-        const { pub } = action
-        return merge(state, { pub })
       }
       return state
     }
   },
   selectOnboardingSnackbar: path(['onboarding', 'snackbar']),
   selectOnboardingStoredUser: path(['onboarding', 'user']),
-  selectAuthenticatedUserPub: path(['onboarding', 'pub']),
+  selectOnboardingPub: createSelector('selectAuthenticatedUserPubs', prop(0)),
   selectOnboardingUser: createSelector(
     'selectOnboardingStoredUser',
     'selectAuthenticatedUser',
@@ -70,7 +67,7 @@ module.exports = {
   ),
   doClearOnboardingUser: () => ({ dispatch }) => {
     window.localStorage.removeItem(ONBOARDING_USER)
-    dispatch({ type: 'ONBOARDING_USER', user: null })
+    dispatch({ type: 'ONBOARDING_STORE_USER', user: null })
   },
   doResendOnboardingEmail: userId => ({ dispatch, client }) => {
     return client
@@ -95,10 +92,7 @@ module.exports = {
         const userString = JSON.stringify(user)
         window.localStorage.setItem(ONBOARDING_USER, userString)
 
-        dispatch({
-          type: 'ONBOARDING_USER',
-          user
-        })
+        dispatch({ type: 'ONBOARDING_STORE_USER', user })
 
         const { name, email } = user
         dispatch({
@@ -134,15 +128,11 @@ module.exports = {
     dispatch({ type: 'ONBOARDING_SNACKBAR_CLEAR' })
   },
   doSubmitOnboardingSetup: data => ({ dispatch, client }) => {
-    return client
-      .service('pubs')
-      .create(data)
+    return dispatch({
+      actionCreator: 'doCreatePub',
+      args: [data]
+    })
       .then(pub => {
-        dispatch({
-          type: 'ONBOARDING_PUB',
-          pub
-        })
-
         const { name } = pub
         dispatch({
           type: 'ONBOARDING_SNACKBAR_SET',
@@ -176,16 +166,41 @@ module.exports = {
   reactShouldUpdateOnboardingStepIndex: createSelector(
     'selectIsOnboarding',
     'selectOnboardingStepIndex',
+    'selectOnboardingStoredUser',
     'selectIsAuthenticated',
-    'selectAuthenticatedUserPub',
-    (isOnboarding, stepIndex, isAuthenticated, authenticatedUserPub) => {
+    'selectOnboardingPub',
+    (
+      isOnboarding,
+      stepIndex,
+      onboardingUser,
+      isAuthenticated,
+      onboardingPub
+    ) => {
       if (!isOnboarding) return false
 
       // if out-of-bounds, reset to step 0
       if (stepIndex == null || stepIndex < 0 || stepIndex >= steps.length) {
         return {
           actionCreator: 'doUpdateUrl',
-          args: ['/onboarding/0']
+          args: [
+            {
+              replace: true,
+              pathname: '/onboarding/0'
+            }
+          ]
+        }
+      }
+
+      // if not authenticated and no stored user, go back to step 0
+      if (!isAuthenticated && stepIndex > 0) {
+        return {
+          actionCreator: 'doUpdateUrl',
+          args: [
+            {
+              replace: true,
+              pathname: '/onboarding/0'
+            }
+          ]
         }
       }
 
@@ -193,14 +208,25 @@ module.exports = {
       if (isAuthenticated && stepIndex < 1) {
         return {
           actionCreator: 'doUpdateUrl',
-          args: ['/onboarding/1']
+          args: [
+            {
+              replace: true,
+              pathname: '/onboarding/1'
+            }
+          ]
         }
       }
 
-      if (authenticatedUserPub && isAuthenticated && stepIndex === 1) {
+      // if pub, at least step 2
+      if (onboardingPub && stepIndex < 2) {
         return {
           actionCreator: 'doUpdateUrl',
-          args: ['/onboarding/2']
+          args: [
+            {
+              replace: true,
+              pathname: '/onboarding/2'
+            }
+          ]
         }
       }
     }
@@ -219,7 +245,7 @@ module.exports = {
     if (userString != null) {
       try {
         const user = JSON.parse(userString)
-        store.dispatch({ type: 'ONBOARDING_USER', user })
+        store.dispatch({ type: 'ONBOARDING_STORE_USER', user })
       } catch (err) {}
     }
   }

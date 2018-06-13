@@ -5,7 +5,7 @@ module.exports = {
   name: 'users',
   getReducer: function () {
     const initialState = {
-      data: null,
+      data: {},
       isLoading: false,
       error: null
     }
