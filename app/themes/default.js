@@ -1,6 +1,6 @@
-const purple = require('material-ui/colors/purple').default
-const teal = require('material-ui/colors/teal').default
-const grey = require('material-ui/colors/grey').default
+const purple = require('@material-ui/core/colors/purple').default
+const teal = require('@material-ui/core/colors/teal').default
+const grey = require('@material-ui/core/colors/grey').default
 
 module.exports = {
   breakpoints: {

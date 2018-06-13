@@ -6,8 +6,8 @@ const { connect: connectStore } = require('redux-bundler-react')
 const { Form, Field } = require('react-final-form')
 const { TextField } = require('redux-form-material-ui')
 const validate = require('redux-form-with-ajv').default
-const Typography = require('material-ui/Typography').default
-const Button = require('material-ui/Button').default
+const Typography = require('@material-ui/core/Typography').default
+const Button = require('@material-ui/core/Button').default
 
 const schema = require('../../users/schemas/createUser')
 const styles = require('../styles/step-start')
@@ -149,20 +149,22 @@ function OnboardingStepStartForm (props) {
               h(Field, {
                 name: 'name',
                 component: TextField,
-                placeholder: 'Ash',
                 label: 'Name',
                 helperText: 'What should we call you?',
+                placeholder: 'Ash',
                 fullWidth: true,
-                margin: 'normal'
+                margin: 'normal',
+                required: true
               }),
               h(Field, {
                 name: 'email',
                 component: TextField,
-                placeholder: 'ash@example.com',
                 label: 'Email',
                 helperText: 'Where should we message you?',
+                placeholder: 'ash@example.com',
                 fullWidth: true,
-                margin: 'normal'
+                margin: 'normal',
+                required: true
               }),
               h(
                 Button,

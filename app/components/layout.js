@@ -3,7 +3,7 @@ const { compose } = require('recompose')
 const { connect: connectStyles } = require('react-fela')
 const { connect: connectStore } = require('redux-bundler-react')
 const { partial } = require('ramda')
-const CssBaseline = require('material-ui/CssBaseline').default
+const CssBaseline = require('@material-ui/core/CssBaseline').default
 const navHelper = require('internal-nav-helper')
 
 const styles = require('../styles/layout')

@@ -3,7 +3,7 @@ const {
   Provider: StyleProvider,
   ThemeProvider: StyleThemeProvider
 } = require('react-fela')
-const { createMuiTheme, MuiThemeProvider } = require('material-ui/styles')
+const { createMuiTheme, MuiThemeProvider } = require('@material-ui/core/styles')
 const h = require('react-hyperscript')
 
 module.exports = Provider

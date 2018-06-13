@@ -3,12 +3,14 @@ const { compose } = require('recompose')
 const { partial } = require('ramda')
 const { connect: connectStyles } = require('react-fela')
 const { connect: connectStore } = require('redux-bundler-react')
-const { default: Stepper, Step, StepLabel } = require('material-ui/Stepper')
-const Divider = require('material-ui/Divider').default
-const IconButton = require('material-ui/IconButton').default
-const Icon = require('material-ui/Icon').default
-const Paper = require('material-ui/Paper').default
-const Snackbar = require('material-ui/Snackbar').default
+const Stepper = require('@material-ui/core/Stepper').default
+const Step = require('@material-ui/core/Step').default
+const StepLabel = require('@material-ui/core/StepLabel').default
+const Divider = require('@material-ui/core/Divider').default
+const IconButton = require('@material-ui/core/IconButton').default
+const Icon = require('@material-ui/core/Icon').default
+const Paper = require('@material-ui/core/Paper').default
+const Snackbar = require('@material-ui/core/Snackbar').default
 
 const styles = require('../styles/onboarding')
 

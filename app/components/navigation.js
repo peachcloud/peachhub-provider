@@ -1,9 +1,9 @@
 const h = require('react-hyperscript')
 const { compose } = require('recompose')
 const { connect: connectStyles } = require('react-fela')
-const AppBar = require('material-ui/AppBar').default
-const Toolbar = require('material-ui/Toolbar').default
-const Typography = require('material-ui/Typography').default
+const AppBar = require('@material-ui/core/AppBar').default
+const Toolbar = require('@material-ui/core/Toolbar').default
+const Typography = require('@material-ui/core/Typography').default
 
 const styles = require('../styles/navigation')
 
